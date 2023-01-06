@@ -16,14 +16,14 @@ const linkStyle = {
 const Header = () => {
   let {user, logoutUser} = useContext(AuthContext)
   return (
-    <div id = 'header' class = "bg4">
+    <div id = 'header' className = "bg4">
         <Space id = "logo">
             <h1>LOGO</h1>
         </Space>
         <Space wrap id = "button-list">
             <Link to = "/" style = {linkStyle}><Button ghost>Home</Button> </Link>
-            <Link to = "/tutorial"style = {linkStyle}><Button ghost>Tutorials</Button> </Link>
-            <Link to = "/start"style = {linkStyle}><Button ghost>Start</Button></Link>
+            <Link to = "/tutorial" style = {linkStyle}><Button ghost>Tutorials</Button> </Link>
+            <Link to = "/start" style = {linkStyle}><Button ghost>Start</Button></Link>
         
             {user 
             ? <Button type = 'link' onClick={logoutUser} style = {linkStyle}>Logout</Button>

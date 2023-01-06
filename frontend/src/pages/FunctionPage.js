@@ -8,8 +8,8 @@ import '../css/styles.css'
 const FunctionPage = () => {
 
   return (
-    <div class = "bg3" id = "function-page">
-      <p class = "white">FunctionPage</p>
+    <div className = "bg3" id = "function-page">
+      <p className = "white">FunctionPage</p>
       
     </div>
   )

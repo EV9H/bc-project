@@ -9,8 +9,8 @@ const TutorialPage = () => {
 
 
   return (
-    <div class = "bg3" id = "tutorial-page">
-      <p class = "white">TutorialPage</p>
+    <div className = "bg3" id = "tutorial-page">
+      <p className='white'>TutorialPage</p>
       
     </div>
   )

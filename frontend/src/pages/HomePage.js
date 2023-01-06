@@ -37,17 +37,17 @@ const HomePage = () => {
   // }
 
   return (
-    <div class='bg3' id = "home-page" >
-      <p class = "white">You are logged in to the Home Page!</p>
-      <div class = "card-container">
-        <div class = "card white">
+    <div className='bg3' id = "home-page" >
+      <p className = "white">You are logged in to the Home Page!</p>
+      <div className = "card-container">
+        <div className = "card white">
           <h3> 已完成功能 </h3>
           <ul>
             <li>登陆</li>
           </ul>
           
         </div>
-        <div class = "card white">
+        <div className = "card white">
           <h3> TO-DO 功能 </h3>
           <ul>
             <li>注册</li>
