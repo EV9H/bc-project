@@ -27,7 +27,7 @@ export const AuthProvider = ({children}) => {
         // console.log('data fetched: ', data)
         // console.log("response", response)
 
-        if(response.status == 200){
+        if(response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
@@ -54,15 +54,15 @@ export const AuthProvider = ({children}) => {
         })
         let data = await response.json()
 
-        if (response.status == 200){
-            if(response.status == 200){
-                setAuthTokens(data)
-                setUser(jwt_decode(data.access))
-                localStorage.setItem('authTokens', JSON.stringify(data))
-            }else{
-                logoutUser()
-            }
+       
+        if(response.status === 200){
+            setAuthTokens(data)
+            setUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        }else{
+            logoutUser()
         }
+        
         if(loading){
             setLoading(false)
         }
