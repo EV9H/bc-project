@@ -4,8 +4,6 @@ import AuthContext from '../context/AuthContext'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, ConfigProvider} from 'antd';
 
-import {Link, useNavigate} from 'react-router-dom'
-
 // CSS
 import '../css/styles.css'
 import '../css/login.css'
@@ -16,12 +14,13 @@ import '../css/login.css'
     <input type = "submit"/>
 </form> */
 
-const LoginForm = () => {
-    let {loginUser, loginUserAnt} = useContext(AuthContext)
+const SignupForm = () => {
+    let {signupUser} = useContext(AuthContext)
     
     const onFinish = async (values) => {
       // console.log('Received values of form: ', values.username);
-      loginUserAnt(values);
+      // console.log('Received values of form: ', values.password);
+      signupUser(values);
     };
     return (
         <ConfigProvider
@@ -32,8 +31,8 @@ const LoginForm = () => {
               }}
         >
             <Form
-            name="normal_login"
-            className="login-form"
+            name="normal_signup"
+            className="signup-form"
             initialValues={{
               remember: true,
             }}
@@ -65,28 +64,16 @@ const LoginForm = () => {
                 placeholder="Password"
               />
             </Form.Item>
-            <Form.Item>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-  
-              <a className="login-form-forgot" href="">
-                Forgot password
-              </a>
-            </Form.Item>
-  
+            
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button" >
-                Log in
+                注册
               </Button>
             </Form.Item>
-            
-              Or <Link to = "/register" style = {{  textDecoration: "none", color: 'black', width: 100}}>注册 </Link>
-
           </Form>
         </ConfigProvider>
         
     )
   }
   
-  export default LoginForm
+  export default SignupForm

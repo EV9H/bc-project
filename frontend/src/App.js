@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import TutorialPage from './pages/TutorialPage';
 import FunctionPage from './pages/FunctionPage';
 import AccountPage from './pages/AccountPage';
+import SignupPage from './pages/SignupPage';
 
 import Header__ from './components/Header'
 import PrivateRoute from './utils/PrivateRoute'
@@ -28,6 +29,7 @@ function App() {
               </Route>
               <Route path = "/tutorial" element= {<TutorialPage/>}/>
               <Route path = "/login" element = {<LoginPage/>}/>
+              <Route path = "/register" element = {<SignupPage/>}/>
               <Route exact path = "/start"  element = {<PrivateRoute/>} >
                 <Route exact path = "/start" element = {<FunctionPage/>}/>
               </Route>

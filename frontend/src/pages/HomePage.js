@@ -57,19 +57,29 @@ const HomePage = () => {
                 } >
             <ul>
               <li>登陆</li>
+              <li>注册</li>
             </ul>
             
           </Card>
-          
-          <Card title  = "TO-DO 功能"  style = {{width: 300,margin:16,}} cover={
+          <Card title  = "In Progress 功能"  style = {{width: 300,margin:16,}} cover={
+                  <img
+                    alt="example"
+                    src="https://picsum.photos/350/350"
+                  />
+                }>  
+            <ul>
+              <li>词汇库 by Louis Wu</li>
+              <li>Function Page Setup - sample 背词软件页 </li>
+              
+            </ul>
+          </Card>
+          <Card title  = "To-do 功能"  style = {{width: 300,margin:16,}} cover={
                   <img
                     alt="example"
                     src="https://picsum.photos/400/400"
                   />
                 }>  
             <ul>
-              <li>注册</li>
-              <li>词汇库</li>
               <li>账户-specific 词语完成量</li>
             </ul>
           </Card>

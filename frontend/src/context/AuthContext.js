@@ -61,6 +61,24 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    let signupUser = async (values) => {
+        let response = await fetch('http://127.0.0.1:8000/api/register/', {
+            method: 'POST', 
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({'username' : values.username, 'password': values.password})
+        })
+        let data = await response.json()
+        // console.log('REG | data fetched: ', data)
+        // console.log("REG | response", response)
+        if(response.status === 201){
+            alert("注册成功！")
+            navigate('/login')
+        }else{
+            alert("Some error occured.")
+        }
+    }
 
     let logoutUser = () => {
         setAuthTokens(null)
@@ -95,9 +113,9 @@ export const AuthProvider = ({children}) => {
     let contextData = {
         user:user,
         authTokens: authTokens,
-        loginUser: loginUser,
         logoutUser: logoutUser,
         loginUserAnt: loginUserAnt,
+        signupUser: signupUser,
     }
 
     useEffect(()=>{
