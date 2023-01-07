@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import NoteSerializer
-from base.models import Note 
+from .serializers import *
+from base.models import *
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -38,4 +38,19 @@ def getNotes(request):
     user = request.user
     notes = user.note_set.all()
     serializer = NoteSerializer(notes, many = True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getWords(request):
+    user = request.user
+    words = user.word_set.all()
+    print(request)
+    serializer = WordSerializer(words, many = True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getMeanings(request):
+    meanings = Meaning.objects.all()
+    serializer = MeaningSerializer(meanings, many = True)
     return Response(serializer.data)

@@ -24,8 +24,8 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({'username' : e.target.username.value, 'password': e.target.password.value})
         })
         let data = await response.json()
-        // console.log('data fetched: ', data)
-        // console.log("response", response)
+        console.log('data fetched: ', data)
+        console.log("response", response)
 
         if(response.status === 200){
             setAuthTokens(data)
@@ -36,6 +36,29 @@ export const AuthProvider = ({children}) => {
             alert("Some error occured.")
         }
     }
+
+    let loginUserAnt = async (values) => {
+        let response = await fetch('http://127.0.0.1:8000/api/token/', {
+            method: 'POST', 
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({'username' : values.username, 'password': values.password})
+        })
+        let data = await response.json()
+        console.log('data fetched: ', data)
+        console.log("response", response)
+
+        if(response.status === 200){
+            setAuthTokens(data)
+            setUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+            navigate('/')
+        }else{
+            alert("Some error occured.")
+        }
+    }
+
 
     let logoutUser = () => {
         setAuthTokens(null)
@@ -72,6 +95,7 @@ export const AuthProvider = ({children}) => {
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,
+        loginUserAnt: loginUserAnt,
     }
 
     useEffect(()=>{
