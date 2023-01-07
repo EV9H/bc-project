@@ -18,7 +18,7 @@ const LoginForm = () => {
     let {loginUser, loginUserAnt} = useContext(AuthContext)
     
     const onFinish = async (values) => {
-      console.log('Received values of form: ', values.username);
+      // console.log('Received values of form: ', values.username);
       loginUserAnt(values);
     };
     return (

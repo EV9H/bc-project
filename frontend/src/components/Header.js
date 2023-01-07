@@ -1,41 +1,67 @@
-import React, {useContext} from 'react'
-import {Link, Navigate} from 'react-router-dom'
+import React, {useContext, useEffect, useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 // ANT DESIGN 
-import {Button, Space} from 'antd'
+import  {Button, Layout, Space, Menu, theme} from 'antd'
+import { SettingOutlined, UserOutlined, GoldFilled } from '@ant-design/icons';
 
 // CSS
 import '../css/styles.css'
-const linkStyle = {
-  textDecoration: "none",
-  color: 'white',
-  width: 100
-};
+const { Header, Content, Sider } = Layout;
 
-const Header = () => {
+const items = [
+  {
+    label: '主页',
+    key: '',
+    icon: <GoldFilled/>
+  },
+  {
+    label: '教程',
+    key: 'tutorial',
+  },
+  {
+    label: '开始',
+    key: 'start',
+  },
+];
+
+
+const Header__ = () => {
   let {user, logoutUser} = useContext(AuthContext)
+  const [current, setCurrent] = useState('');
+  
+  const navigate = useNavigate();
+  const onClick = (e) => {
+    navigate("/"+e.key)
+    setCurrent(e.key);
+  };
+
+
+
   return (
-    <div id = 'header' className = "bg4">
-        <Space id = "logo">
-            <h1>LOGO</h1>
-        </Space>
-        <Space wrap id = "button-list">
-            <Link to = "/" style = {linkStyle}><Button ghost>Home</Button> </Link>
-            <Link to = "/tutorial" style = {linkStyle}><Button ghost>Tutorials</Button> </Link>
-            <Link to = "/start" style = {linkStyle}><Button ghost>Start</Button></Link>
+    <Layout>
+      <Header style = {{display: 'inline-flex'}}>
+        {/* <GoldFilled size = "large" style = {{color: 'white', fontSize: "16px", marginRight: "40px",}} /> */}
         
-            {user 
-            ? <Button type = 'link' onClick={logoutUser} style = {linkStyle}>Logout</Button>
-            : <Link to = "/login" style = {linkStyle}><Button ghost>Login</Button></Link>
-            
-            }
-            {user && <p style= {{color: 'white', marginLeft: 100 }}>Hello,  <Link to ="/account" style = {{color: 'white'}} >{user.username} </Link></p>}
+        <Menu className = "header-menu" theme = "dark" onClick={onClick} defaultSelectedKeys={['']} selectedKeys={[current]} mode="horizontal" items={items}/>
+        
+        {/* {user && <p style= {{color: 'blue', marginLeft: 100 }}>Hello,  <Link to ="/account" style = {{color: 'white'}} >{user.username} </Link></p>} */}
+        <Menu className = "account-menu-option" theme = "dark" onClick={(e) => navigate("/"+e.key) } mode="horizontal" 
+          items={[  {
+                      label: '',
+                      key: 'account',
+                      icon:<UserOutlined />
+                    },
+                ]}
+        />
+        
+      </Header>
+    </Layout>
+    
 
-        </Space>
 
-    </div>
   )
 }
 
-export default Header
+export default Header__

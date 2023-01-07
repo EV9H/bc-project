@@ -1,38 +1,86 @@
 import React, {useState, useEffect, useContext} from 'react'
 
 // ANT DESIGN 
-import {Button } from 'antd'
+import {Button, Card, ConfigProvider, Row, Carousel, Space, Layout, theme} from 'antd'
 // CSS
 import '../css/styles.css'
 
+const contentStyle = {
+  margin: 0,
+  height: '400px',
+  color: '#fff',
+  lineHeight: '160px',
+  textAlign: 'center',
+  background: '#203175',
+  
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
-// "NOTES" are used in the tutorials so it is here. Model for notes defined in backend and will be changed for our need
 const HomePage = () => {
   
+  const onChange = (currentSlide) => {
+    console.log(currentSlide);
+    
+  };
+
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
+    <Layout style = {{}}>
+        
+      <Carousel afterChange={onChange}>
+        <div>
+          <h3 style = {contentStyle}> 文言文实词狂 </h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>2</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>3</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>4</h3>
+        </div>
+      </Carousel>
     
-    <div className='bg3' id = "home-page" >
-      <p className = "white">You are logged in to the Home Page!</p>
-      <div className = "card-container">
-        <div className = "card white">
-          <h3> 已完成功能 </h3>
-          <ul>
-            <li>登陆</li>
-          </ul>
+      <Layout id = "home-page" style ={{marginBottom: "24px", marginTop: "24px",}}>
+        <Row gutter= {16}>
+          <Card title = "已完成功能" style = {{width: 300, margin:16,background: colorBgContainer,}} cover={
+                  <img
+                    alt="example"
+                    src="https://picsum.photos/300/300"
+                  />
+                } >
+            <ul>
+              <li>登陆</li>
+            </ul>
+            
+          </Card>
           
-        </div>
-        <div className = "card white">
-          <h3> TO-DO 功能 </h3>
-          <ul>
-            <li>注册</li>
-            <li>词汇库</li>
-            <li>账户-specific 词语完成量</li>
-          </ul>
-        </div>
+          <Card title  = "TO-DO 功能"  style = {{width: 300,margin:16,}} cover={
+                  <img
+                    alt="example"
+                    src="https://picsum.photos/400/400"
+                  />
+                }>  
+            <ul>
+              <li>注册</li>
+              <li>词汇库</li>
+              <li>账户-specific 词语完成量</li>
+            </ul>
+          </Card>
 
-      </div>
-    </div>
+        </Row>
+      </Layout>
+      
+    </Layout>
+  
+
+   
   )
 }
 

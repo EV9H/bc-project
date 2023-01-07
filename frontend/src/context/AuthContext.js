@@ -1,12 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode"
 import {useNavigate} from 'react-router-dom'
+import Header__ from '../components/Header'
+
 
 const AuthContext = createContext()
 export default AuthContext
 
 export const AuthProvider = ({children}) => {
-
 
     let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
@@ -24,14 +25,15 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({'username' : e.target.username.value, 'password': e.target.password.value})
         })
         let data = await response.json()
-        console.log('data fetched: ', data)
-        console.log("response", response)
+        // console.log('data fetched: ', data)
+        // console.log("response", response)
 
         if(response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
             navigate('/')
+            Header__.setCurrent('')
         }else{
             alert("Some error occured.")
         }
@@ -46,14 +48,14 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({'username' : values.username, 'password': values.password})
         })
         let data = await response.json()
-        console.log('data fetched: ', data)
-        console.log("response", response)
+        // console.log('data fetched: ', data)
+        // console.log("response", response)
 
         if(response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            navigate('/')
+            navigate('/start')
         }else{
             alert("Some error occured.")
         }

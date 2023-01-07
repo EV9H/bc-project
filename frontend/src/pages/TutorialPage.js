@@ -2,12 +2,11 @@ import React, {useState, useEffect, useContext}from 'react'
 import AuthContext from '../context/AuthContext'
 
 // ANT DESIGN 
-import {Button, Space } from 'antd'
+import {Button, Layout, Space, Row} from 'antd'
 // CSS
 import '../css/styles.css'
 
 const TutorialPage = () => {
-  let {authTokens, logoutUser} = useContext(AuthContext)
   let [meanings, setMeanings] = useState([])
 
   useEffect(()=>{
@@ -31,9 +30,9 @@ const TutorialPage = () => {
 
 
   return (
-    <div className = "bg3" id = "tutorial-page">
-      <p className='white'>TutorialPage</p>
-      <Space wrap className='card white'>
+    <Layout id = "tutorial-page" style = {{minHeight: "80vh",}}>
+      <h3 >教程页</h3>
+      <Space wrap>
          <h3> 词库</h3>
          <ul>
             {meanings.map(m => (
@@ -41,7 +40,7 @@ const TutorialPage = () => {
             ))}
         </ul>
       </Space>
-    </div>
+    </Layout>
   )
 }
 
