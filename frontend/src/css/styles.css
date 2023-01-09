@@ -135,3 +135,9 @@ p {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+
+#word-list{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}

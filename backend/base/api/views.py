@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from .serializers import *
 from base.models import *
 
+import csv
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -67,12 +69,25 @@ def updateVocab(request):
     #     new_entry.example.add(example)
 
     #     return new_entry
-    
+    def get_new_from_csv(filepath):
+        file = open(filepath)
+        csvreader = csv.reader(file)
+        rows = []
+        d = []
+        for row in csvreader:
+            rows.append(row)
+
+        for r in rows:
+            d.append([r[1], r[3], r[2], r[4]])  # word, example, meaning, attribute
+        del d[0] # Column Name Row
+        print("LIST COMPLETED")
+        return d
+
     def insert_line(str_word, str_example, str_meaning, str_attribute):
         w, created = Word.objects.get_or_create(
             word=str_word
         )
-        eg, created = Example.objects.get_or_create(
+        eg, eg_created = Example.objects.get_or_create(
             example = str_example,
             word = w
         )
@@ -81,17 +96,24 @@ def updateVocab(request):
             meaning = str_meaning,
             attribute = str_attribute
         )
-        new_entry.example.add(eg)
+        if(eg_created):
+            new_entry.example.add(eg)
         return new_entry
-    e = insert_line("树", "两棵树","木头","名词")
-    e2 = insert_line("牛", "非常牛的","厉害","形容词")
-    e3 = insert_line("牛", "非常牛的第二个例子","厉害","形容词")
+    cnt = 0
+    for line in get_new_from_csv("base/api/csv/sheet.csv"):
+        insert_line(line[0], line[1], line[2],line[3])
+        print("LINE: " + str(cnt) + "COMPLETED")
+        cnt += 1
+    # e = insert_line("树", "两棵树","木头","名词")
+    # e2 = insert_line("牛", "非常牛的","厉害","形容词")
+    # e3 = insert_line("牛", "非常牛的第二个例子","厉害","形容词")
+
     # word_to_create = "十"
     # example_to_create = "十有八九"
     # w  = insert_or_create_word(word_to_create)
     # eg  = insert_or_create_example(example_to_create,w)
     # entry = insert_or_create_entry(w, eg,"10","数词")
-    return Response((e.word.word))
+    return Response()
 
 
 
