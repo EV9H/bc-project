@@ -21,7 +21,7 @@ const contentStyle = {
 const HomePage = () => {
   
   const onChange = (currentSlide) => {
-    console.log(currentSlide);
+    // console.log(currentSlide);
     
   };
 

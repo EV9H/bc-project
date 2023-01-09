@@ -6,21 +6,39 @@ from base.models import *
 
 
 
-
 class NoteSerializer(ModelSerializer):
     class Meta: 
         model = Note
         fields = '__all__'
 
+# class WordSerializer(ModelSerializer):
+#     class Meta: 
+#         model = Word
+#         fields = '__all__'
+
+# class MeaningSerializer(ModelSerializer):
+#     class Meta: 
+#         model = Meaning
+#         fields = '__all__'
+
 class WordSerializer(ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Word
         fields = '__all__'
-
-class MeaningSerializer(ModelSerializer):
-    class Meta: 
-        model = Meaning
+        
+class EntrySerializer(ModelSerializer):
+    class Meta:
+        model = Entry
         fields = '__all__'
+
+class ExampleSerializer(ModelSerializer):
+    class Meta:
+        model = Example
+        fields = '__all__'
+
+
+
+
 
 UserModel = get_user_model()
 class UserSerializer(ModelSerializer):

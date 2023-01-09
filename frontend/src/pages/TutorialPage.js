@@ -2,19 +2,21 @@ import React, {useState, useEffect, useContext}from 'react'
 import AuthContext from '../context/AuthContext'
 
 // ANT DESIGN 
-import {Button, Layout, Space, Row} from 'antd'
+import {Button, Layout, Space, Card,Popover} from 'antd'
 // CSS
 import '../css/styles.css'
 
 const TutorialPage = () => {
-  let [meanings, setMeanings] = useState([])
-
+  let [entries, setEntries] = useState([])
+  let [words, setWords] = useState([])
   useEffect(()=>{
-    getMeanings()
+    getEntries().then(
+      get_word_ids()
+    )
   }, [])
 
-  let getMeanings = async() => {
-    let response = await fetch('http://127.0.0.1:8000/api/meanings/',{
+  let getEntries = async() => {
+    let response = await fetch('http://127.0.0.1:8000/api/allentry/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json'
@@ -23,11 +25,26 @@ const TutorialPage = () => {
 
     let data = await response.json()
     if(response.status === 200){
-      setMeanings(data)
+      setEntries(data)
     }
   }
+  let get_word_ids = async() =>{
+    let response = await fetch('http://127.0.0.1:8000/api/id_word/',{
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+      },
+      })
 
+      if(response.status === 200){
+        let words = await response.json()
+        setWords(words)
+      }
+  }
 
+  const getWordByID = (id) => {
+    return words.find(w => w.id === id).word
+  }
 
   return (
     <Layout id = "tutorial-page" style = {{minHeight: "80vh",}}>
@@ -35,8 +52,12 @@ const TutorialPage = () => {
       <Space wrap>
          <h3> 词库</h3>
          <ul>
-            {meanings.map(m => (
-               <li key = {m.id}> 词id: {m.word}, 词义：{m.name}, 例子： {m.example}, 词性：{m.attribute}, 发音：{m.pronounciation}</li>
+            {entries.map(e => (
+              <Popover content = {e.meaning}>
+                <Card>
+                  <li key = {e.id}>{getWordByID(e.word)}({e.attribute})</li>
+                </Card>
+              </Popover>
             ))}
         </ul>
       </Space>
