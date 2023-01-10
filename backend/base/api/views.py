@@ -119,24 +119,20 @@ def updateVocab(request):
 
 @api_view(['GET'])
 def getAllEntry(request):
-    # user = request.user
-    entries = Entry.objects.all()
-    # print(request)
-    serializer = EntrySerializer(entries, many = True)
+    # entries = Entry.objects.all() # ORIGINAL
+    entry = Entry.objects.prefetch_related("example")   # MASSIVELY IMPROVE FETCH PERFORMANCE
+    serializer = EntrySerializer(entry, many = True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getExample(request):
-    id = request.example_id
-    example = Example.objects.get(pk=id)
-    # print(request)
-    serializer = ExampleSerializer(example)
+def getExamples(request):
+    examples = Example.objects.all()
+    serializer = ExampleSerializer(examples, many= True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getWordID(request):
+def getWords(request):
     words = Word.objects.all()
-    # print(request)
     serializer = WordSerializer(words, many= True)
     return Response(serializer.data)
 

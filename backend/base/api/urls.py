@@ -9,8 +9,11 @@ urlpatterns = [
     path('', views.getRoutes),
     path('notes/', views.getNotes),
     path('update/', views.updateVocab),
+
     path('allentry/', views.getAllEntry),
-    path('id_word/', views.getWordID),
+    path('words/', views.getWords),
+    path('examples/', views.getExamples),
+    
     path('register/', views.RegisterView.as_view(), name = 'auth_register'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

@@ -139,5 +139,13 @@ p {
 #word-list{
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.overflowScroll{
+    overflow-x: scroll;
+    /* height: 100vh; */
+    display: flex;
     flex-direction: row;
+
 }

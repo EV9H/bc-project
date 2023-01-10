@@ -6,37 +6,31 @@ import {Button, Layout, Space, Card,Popover, Table, Alert} from 'antd'
 // CSS
 import '../css/styles.css'
 
+
 const TutorialPage = () => {
   let [entries, setEntries] = useState([])
   let [words, setWords] = useState([])
-
-  useEffect(()=>{
-    getEntries().then(
-      get_word_ids()
-    )
-  }, [])
+  let [examples, setExamples] = useState([])
 
   let getEntries = async() => {
-    console.log("Start fetching entries")
-    const startTime = new Date();
+    console.log("Start fetching entries") 
+    const startTime = new Date();                                                           // RUN TIME TRACK START
     let response = await fetch('http://127.0.0.1:8000/api/allentry/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json'
       }
     })
-
     let data = await response.json()
     if(response.status === 200){
       setEntries(data)
-      console.log("Entries Fetched, time used: " + ((new Date() - startTime)/1000))
+      console.log("Entries Fetched, time used: " + ((new Date() - startTime)/1000))         // RUN TIME TRACK END
     }else{
       alert("Something Wrong")
     }
-
   }
-  let get_word_ids = async() =>{
-    let response = await fetch('http://127.0.0.1:8000/api/id_word/',{
+  let get_words = async() =>{
+    let response = await fetch('http://127.0.0.1:8000/api/words/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json',
@@ -50,6 +44,31 @@ const TutorialPage = () => {
         alert("Something wrong with words")
       }
   }
+  let get_examples = async() =>{
+    let response = await fetch('http://127.0.0.1:8000/api/examples/',{
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+      },
+      })
+
+      if(response.status === 200){
+        let e = await response.json()
+        setExamples(e)
+      }else{
+        alert("Something wrong with examples")
+      }
+  }
+
+
+
+  useEffect(()=>{
+    getEntries()
+    get_words()
+    get_examples()
+  }, [])
+
+
 
   const getEntriesFormattedForTable = (entries) =>{
       var result = entries.map(function (e) {
@@ -57,25 +76,43 @@ const TutorialPage = () => {
             ID: e.id,
             word: getWordByID(e.word),
             meaning: e.meaning,
-            attribute: e.attribute
+            attribute: e.attribute,
+            example: e.example
         };
       });
       return result 
   }
+
+//   const getExamplesFormattedForTable = (entries, examples) =>{
+//     var result = entries.map(function (e) {
+//       return {
+//           ID: e.id,
+//           word: getWordByID(e.word),
+//           meaning: e.meaning,
+//           attribute: e.attribute,
+//           example: e.example
+//       };
+//     });
+//     return result 
+// }
 
         
  
   const getWordByID = (id) => {
     return words.find(w => w.id === id).word
   }
-  // const dataSource = entries.map(e => [
-  //   {
-  //   "id" : e.id, 
-  //   "word": getWordByID(e.word),
-  //   "attibute": e.attibute,
-  //   "meaning": e.meaning
-  //   }
-  // ])
+
+  const getExampleByID = (id) =>{
+    return examples.find(e => e.id === id).example
+  }
+
+  const getExampleListByEntry = (entry) =>{
+    var l = []
+    for(const example_id of entry.example){
+      l.push(getExampleByID(example_id))
+    }
+    return l
+  }
 
   
   const columns = [
@@ -104,21 +141,55 @@ const TutorialPage = () => {
   ];
 
   return (
-    <Layout id = "tutorial-page" style = {{minHeight: "80vh",}}>
-      <h3 >教程页</h3>
-      <Space wrap>
-         <h3> 词库</h3>
-         {/* <ul id = "word-list">
-            {entries.map(e => (
-              <Popover content = {e.meaning}>
-                <Card>
-                  <li key = {e.id}>{getWordByID(e.word)}({e.attribute})</li>
-                </Card>
+    <Layout id = "tutorial-page" style = {{minHeight: "80vh", alignItems:'center',}}>
+      <Space wrap align='center'>
+        <ul>
+            <h3>以每个字为单位显示</h3>
+            <Space wrap align='center'>
+
+            
+            {words.map(w => (
+              <Popover content = {<Card>X</Card>}>
+              <Card style = {{margin: "4px"}}>
+                <li key = {w.id}>{w.word}</li>
+              </Card>
               </Popover>
             ))}
-        </ul> */}
-        <Table dataSource={getEntriesFormattedForTable(entries)} columns={columns} rowKey = "ID"/>;
+            </Space>
+        </ul>
+        
+         
+         <ul>
+            <h3>以每个字意为单位显示</h3>
+            <Space wrap align='center'>
+              {entries.map(e => (
+                  <Card title = {getWordByID(e.word)+ " / "+ e.attribute} style = {{width: "150px",}}>
+                    <li key = {e.id}>  {e.meaning}</li>
+                  </Card>
+              ))}
+            </Space>
+            
+        </ul>
+
+        
+        
       </Space>
+      <div>
+        <Space wrap align="center">
+            <Table dataSource={getEntriesFormattedForTable(entries)} columns={columns} rowKey = "ID"
+              onRow={(record, rowIndex) => {
+                return {
+                  onClick: event => { 
+                      for(const r of getExampleListByEntry(record)){
+                        console.log(r)
+                      }
+                  }
+                };
+              }}
+              style = {{justifyContent:'center', width: '80vw', alignItems:'center',justifyItems:'center',justifyContent:'center',alignSelf:'center',alignContent:'center'}}
+              />
+          </Space>
+      </div>
     </Layout>
   )
 }

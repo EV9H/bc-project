@@ -11,15 +11,6 @@ class NoteSerializer(ModelSerializer):
         model = Note
         fields = '__all__'
 
-# class WordSerializer(ModelSerializer):
-#     class Meta: 
-#         model = Word
-#         fields = '__all__'
-
-# class MeaningSerializer(ModelSerializer):
-#     class Meta: 
-#         model = Meaning
-#         fields = '__all__'
 
 class WordSerializer(ModelSerializer):
     class Meta:
@@ -30,6 +21,21 @@ class EntrySerializer(ModelSerializer):
     class Meta:
         model = Entry
         fields = '__all__'
+
+# class EntrySerializer(ModelSerializer):
+#     examples = serializers.SlugRelatedField(
+#         many=True, 
+#         read_only=False,
+#         slug_field="name"
+#     )
+   
+#   class Meta:
+#     model = Artist
+#     fields = ('id', 'name', 'songs')
+
+#     class Meta:
+#         model = Entry
+#         fields = '__all__'
 
 class ExampleSerializer(ModelSerializer):
     class Meta:
