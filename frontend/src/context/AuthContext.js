@@ -12,12 +12,12 @@ export const AuthProvider = ({children}) => {
     let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
-
+    const backendAddress = "http://127.0.0.1:8000"
     const navigate = useNavigate()
 
     let loginUser = async (e) => {
         e.preventDefault()
-        let response = await fetch('http://127.0.0.1:8000/api/token/', {
+        let response = await fetch(backendAddress+ '/api/token/', {
             method: 'POST', 
             headers:{
                 'Content-Type':'application/json'
@@ -40,7 +40,7 @@ export const AuthProvider = ({children}) => {
     }
 
     let loginUserAnt = async (values) => {
-        let response = await fetch('http://127.0.0.1:8000/api/token/', {
+        let response = await fetch(backendAddress+ '/api/token/', {
             method: 'POST', 
             headers:{
                 'Content-Type':'application/json'
@@ -62,7 +62,7 @@ export const AuthProvider = ({children}) => {
     }
 
     let signupUser = async (values) => {
-        let response = await fetch('http://127.0.0.1:8000/api/register/', {
+        let response = await fetch(backendAddress+ '/api/register/', {
             method: 'POST', 
             headers:{
                 'Content-Type':'application/json'
@@ -88,7 +88,7 @@ export const AuthProvider = ({children}) => {
     }
 
     let updateToken = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+        let response = await fetch(backendAddress+ '/api/token/refresh/', {
             method: 'POST', 
             headers:{
                 'Content-Type':'application/json'
@@ -116,6 +116,7 @@ export const AuthProvider = ({children}) => {
         logoutUser: logoutUser,
         loginUserAnt: loginUserAnt,
         signupUser: signupUser,
+        backendAddress:backendAddress,
     }
 
     useEffect(()=>{
