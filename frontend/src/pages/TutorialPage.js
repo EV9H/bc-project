@@ -15,7 +15,7 @@ const TutorialPage = () => {
   let getEntries = async() => {
     console.log("Start fetching entries") 
     const startTime = new Date();                                                           // RUN TIME TRACK START
-    let response = await fetch('http://127.0.0.1:8000/api/allentry/',{
+    let response = await fetch('https://bc-backend-railway-test-production.up.railway.app/api/allentry/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const TutorialPage = () => {
     }
   }
   let get_words = async() =>{
-    let response = await fetch('http://127.0.0.1:8000/api/words/',{
+    let response = await fetch('https://bc-backend-railway-test-production.up.railway.app/api/words/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const TutorialPage = () => {
       }
   }
   let get_examples = async() =>{
-    let response = await fetch('http://127.0.0.1:8000/api/examples/',{
+    let response = await fetch('https://bc-backend-railway-test-production.up.railway.app/api/examples/',{
       method: 'GET',
       headers:{
         'Content-Type': 'application/json',
