@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 
 // ANT DESIGN 
-import {Button, Card, ConfigProvider, Row, Carousel, Space, Layout, theme} from 'antd'
+import {Card, Row, Carousel, Space, Layout, theme} from 'antd'
 // CSS
 import '../css/styles.css'
 

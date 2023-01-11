@@ -1,8 +1,6 @@
-import React, {useContext} from 'react'
-import AuthContext from '../context/AuthContext'
+import React from 'react'
 
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Space} from 'antd';
+import { Space} from 'antd';
 
 import LoginForm from '../components/LoginForm';
 import '../css/login.css'

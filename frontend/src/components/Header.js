@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
 
 // ANT DESIGN 
 import  {Button, Layout, Space, Menu, theme} from 'antd'
@@ -28,7 +27,6 @@ const items = [
 
 
 const Header__ = () => {
-  let {user, logoutUser} = useContext(AuthContext)
   const [current, setCurrent] = useState('');
   
   const navigate = useNavigate();

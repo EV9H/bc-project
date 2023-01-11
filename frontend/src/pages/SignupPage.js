@@ -1,17 +1,15 @@
-import React, {useContext} from 'react'
-import AuthContext from '../context/AuthContext'
+import React from 'react'
 
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Space} from 'antd';
+import {Space} from 'antd';
 
-import LoginForm from '../components/SignupForm';
+import SignupForm from '../components/SignupForm';
 import '../css/login.css'
 
 const SignupPage = () => {
   return (   
     <div id = "login-page">                             
       <Space id = "signup-box">
-          <LoginForm/>
+         <SignupForm/>
       </Space>
   </div>
   )

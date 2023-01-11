@@ -50,12 +50,12 @@ export const AuthProvider = ({children}) => {
         let data = await response.json()
         // console.log('data fetched: ', data)
         // console.log("response", response)
-
+        
         if(response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            navigate('/start')
+            navigate('/account')
         }else{
             alert("Some error occured.")
         }
@@ -84,31 +84,37 @@ export const AuthProvider = ({children}) => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
-        navigate('/login')
+        // navigate('/login')
     }
 
     let updateToken = async () => {
-        let response = await fetch(backendAddress+ '/api/token/refresh/', {
-            method: 'POST', 
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({'refresh' : authTokens?.refresh})
-        })
-        let data = await response.json()
-
-       
-        if(response.status === 200){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
-        }else{
-            logoutUser()
-        }
-        
-        if(loading){
+        if (authTokens === null){
             setLoading(false)
+        }else{
+            let response = await fetch(backendAddress+ '/api/token/refresh/', {
+                method: 'POST', 
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({'refresh' : authTokens?.refresh})
+            })
+            let data = await response.json()
+    
+           
+            if(response.status === 200){
+                setAuthTokens(data)
+                setUser(jwt_decode(data.access))
+                localStorage.setItem('authTokens', JSON.stringify(data))
+            }else{
+                logoutUser()
+            }
+            
+            if(loading){
+                setLoading(false)
+            }
+
         }
+            
     }
     let contextData = {
         user:user,
