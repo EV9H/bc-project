@@ -25,6 +25,7 @@ function App() {
             <Header__/>
             
             <Routes>
+              
               <Route exact path = '/' element = {<HomePage/>}/>
               <Route exact path = "/"  element = { <AuthProviderRoute/> } > 
 

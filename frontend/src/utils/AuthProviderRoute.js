@@ -12,11 +12,15 @@
 import React, {useContext} from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import AuthContext, {AuthProvider} from '../context/AuthContext';
-
+import {DataProvider} from '../context/DataContext'
 const AuthProviderRoute = () => {
     // const auth = null; // determine if authorized, from context or however you're doing it
     // console.log("PRIVATE ROUTE!")
-    return <AuthProvider><Outlet /></AuthProvider>
+    return <AuthProvider>
+                <DataProvider>
+                    <Outlet />
+                </DataProvider>
+            </AuthProvider>
 
 }
 

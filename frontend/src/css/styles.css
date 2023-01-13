@@ -149,3 +149,8 @@ p {
     flex-direction: row;
 
 }
+
+
+.question-text {
+    font-size: large;
+}
