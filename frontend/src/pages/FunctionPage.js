@@ -27,6 +27,10 @@ const FunctionPage = () => {
     generateRandomList(entries,10)
   }, [])
 
+  const onChange = ({ target: { value } }) => {
+    console.log('radio checked', value);
+    // setValue3(value);
+  };
   
 
   const generateRandomList = (data, n) =>{
@@ -34,13 +38,12 @@ const FunctionPage = () => {
     let temp = []
     let cnt =0 
     
-    console.log(data)
     while(temp.length < n){
       
       let idx = Math.floor(Math.random()*data.length)
       if (temp.indexOf(idx) === -1){temp.push(idx)}
       cnt+= 1;
-      if(cnt > 100){console.log("FAILED");break;}
+      if(cnt > 1000){console.log("FAILED");break;} // TO PREVENT INFINITE LOOP
     }
     let wl = []
     for(let i = 0; i < n; i++){
@@ -53,7 +56,7 @@ const FunctionPage = () => {
     let word = getWordByID(entry.word)
     let example = getExampleListByEntry(entry).sample()
 
-    return <Highlighter className= "question-text" searchWords = {[word]} textToHighlight = {example} highlightStyle = {{backgroundColor: "#cddaff", textDecorationLine: 'underline', textUnderlineOffset: '6px',}}></Highlighter>
+    return <Highlighter className= "question-text" searchWords = {[word]} textToHighlight = {example} highlightStyle = {{backgroundColor: 'transparent', color:"red",textDecorationLine: 'underline', textUnderlineOffset: '6px',}}></Highlighter>
   }
 
   return (
@@ -66,7 +69,7 @@ const FunctionPage = () => {
           <Card title = "练习表" style = {{width: "80vw"}}>
 
             {wordList.map(e => (
-              <Card.Grid style = {{width: '100%',textAlign: 'center',}} >
+              <Card.Grid style = {{width: '100%',textAlign: 'center',}} key = {e.id}>
                 
                 {getRandomExample(e)}
                 <Button type = "text" shape = "circle" icon = {<InfoCircleOutlined style = {{fontSize: "28px"}} />} onClick= {()=>{alert(getWordByID(e.word) + ": (" + e.attribute + ") "+ e.meaning)}} style = {{float: "right"}}></Button>
@@ -76,18 +79,18 @@ const FunctionPage = () => {
           <h3>方案二 FORM</h3>
           
           <Form title = "练习表" style = {{width: "1000px"}}>
-            
-            <p style = {{textAlign:"right", marginRight:"25px"}}> 没学 | 忘记 | 模糊 | 记得 | 掌握</p>
+{/*             
+            <p style = {{textAlign:"right", marginRight:"25px"}}> 没学 | 忘记 | 模糊 | 记得 | 掌握</p> */}
          
             
             {wordList.map(e => (
-              <Form.Item>
+              <Form.Item key={e.id}>
                 <div style = {{display:'flex', flexDirection: "row", justifyContent: 'space-between'}}>
                   <div >
                     {getRandomExample(e)}
                   </div>
                   
-                  <div style ={{}}>
+                  <div style ={{display:"flex" , flexDirection: 'row', alignItems:"center"}}>
                     <Radio.Group name= {"radio-button" + e.id}
                       label="Choices"
                       rules={[{
@@ -95,12 +98,14 @@ const FunctionPage = () => {
                                 message: 'Please pick an item!',
                               },]}
                       style = {{}} 
-                    >
-                      <Radio value="0"> </Radio>
-                      <Radio value="1"> </Radio>
-                      <Radio value="2"> </Radio>
-                      <Radio value="3"> </Radio>
-                      <Radio value="4"> </Radio>
+                      optionType="button"
+                      buttonStyle='solid'
+                    >             
+                      <Radio value="0">没学</Radio>
+                      <Radio value="1">忘记</Radio>
+                      <Radio value="2">模糊</Radio>
+                      <Radio value="3">记得</Radio>
+                      <Radio value="4">掌握</Radio>
                     </Radio.Group>
                   </div>
                 </div>
