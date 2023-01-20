@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+# from django.contrib.postgres.fields import HStoreField
+
+
 # Create your models here.
 
 class Note(models.Model):
@@ -8,6 +12,13 @@ class Note(models.Model):
 
     def __str__(self):
         return self.body
+
+# class Progress(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    # progress = HStoreField(default = dict)
+
+
+
 
 # class Word(models.Model):
 #     name = models.CharField(max_length=20, null=True)
@@ -53,7 +64,7 @@ class Example(models.Model):
     def __str__(self):
         return self.example
 
-# EACH USER OWN MANY ENTRIES (same except progress to each entry)
+# EACH USER OWN MANY ENTRIES (same except progress to each entry) / (OR OTHER APPROACHES)
 class Entry(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     example = models.ManyToManyField(Example)
@@ -65,10 +76,17 @@ class Entry(models.Model):
         return (self.word.word + ": " + self.meaning)
 
 # USER SPECIFIC 
-class UserProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    user_base = models.ManyToManyField(Entry)
+# class UserProgress(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+#     user_base = models.ManyToManyField(Entry)
 
+class Answer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE, null=True)
+    progressIncrement = models.FloatField(default= 0.0)
+
+    def __str__(self):
+        return (self.user.username + "/" + self.entry.meaning + "/" + str(self.progressIncrement))
 
 # class Word(models.Model):
 #     name = models.CharField(max_length=40)

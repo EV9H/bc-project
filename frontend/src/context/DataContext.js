@@ -9,29 +9,37 @@ export const DataProvider = ({children}) =>{
     let [entries, setEntries] = useState([])
     let [words, setWords] = useState([])
     let [examples, setExamples] = useState([])
-    let {backendAddress} = useContext(AuthContext)
+    let [answers, setAnswers] = useState([])
     let [loading, setLoading] = useState(true)
 
+
+    let {backendAddress, authTokens} = useContext(AuthContext)
     const getAll = async () => {
         if(entries.length === 0){
-            console.log("GETTING ENTRIES")
+            console.log("GETTING ALL DATA")
             await getEntries()
-            console.log("entries GOT")
+            await get_words()
+            await get_examples()
         }
         // if(words === []){
-            await get_words()
+            // await get_words()
         // }
         // if(examples === []){
-            await get_examples()
+            // await get_examples()
         // }
+        
+            
+        
+        
+        
         setLoading(false)
-        console.log("GETTING ALL!")
     }
     useEffect(()=>{
+
         (async () => {
             await getAll()
          })()
-         .then(()=> {console.log("ALL GOT")})
+         .then(()=> {console.log("ALL GOT"); })
          .catch(console.error)
         
     }, [loading])
@@ -39,50 +47,74 @@ export const DataProvider = ({children}) =>{
 
     let getEntries = async() => {
         console.log("Start fetching entries") 
-        const startTime = new Date();                                                           // RUN TIME TRACK START
-        let response = await fetch(backendAddress+'/api/allentry/',{
-            method: 'GET',
-            headers:{
-            'Content-Type': 'application/json'
-            }
-        })
-        let data = await response.json()
-        if(response.status === 200){
-            setEntries(data)
-            console.log("Entries Fetched, time used: " + ((new Date() - startTime)/1000))         // RUN TIME TRACK END
-        }else{
-            alert("Something Wrong")
+        if(localStorage.hasOwnProperty('entries')){
+            console.log("--- entries already exist")
+            setEntries(JSON.parse(localStorage.getItem('entries')))
         }
+        else{
+            console.log('--- entries does not exist')
+            let response = await fetch(backendAddress+'/api/allentry/',{
+                method: 'GET',
+                headers:{
+                'Content-Type': 'application/json'
+                }
+            })
+            if(response.status === 200){
+                let data = await response.json()
+                setEntries(data)
+                localStorage.setItem('entries', JSON.stringify(data))
+            }else{
+                alert("Something Wrong")
+            }
+        }
+        
     }
     let get_words = async() =>{
-        let response = await fetch(backendAddress+'/api/words/',{
-            method: 'GET',
-            headers:{
-            'Content-Type': 'application/json',
-            },
-            })
-
-        if(response.status === 200){
-            let w = await response.json()
-            setWords(w)
-        }else{
-            alert("Something wrong with words")
+        if(localStorage.hasOwnProperty('words')){
+            setWords(JSON.parse(localStorage.getItem('words')))
         }
+        else{
+            
+            let response = await fetch(backendAddress+'/api/words/',{
+                method: 'GET',
+                headers:{
+                'Content-Type': 'application/json',
+                },
+            })
+            
+            let w = await response.json()
+            if(response.status === 200){
+                // return w
+                setWords(w)
+                localStorage.setItem('words', JSON.stringify(w))
+            }else{
+                alert("Something wrong with words")
+            }
+        }
+        
     }
     let get_examples = async() =>{
-        let response = await fetch(backendAddress+'/api/examples/',{
-            method: 'GET',
-            headers:{
-            'Content-Type': 'application/json',
-            },
-            })
-
-        if(response.status === 200){
-        let e = await response.json()
-        setExamples(e)
+        if(localStorage.hasOwnProperty('examples')){
+            setExamples(JSON.parse(localStorage.getItem('examples')))
         }else{
-        alert("Something wrong with examples")
+            let response = await fetch(backendAddress+'/api/examples/',{
+                method: 'GET',
+                headers:{
+                'Content-Type': 'application/json',
+                },
+                })
+    
+            if(response.status === 200){
+                let e = await response.json()
+                setExamples(e)
+                localStorage.getItem('examples', JSON.stringify(e))
+            }else{
+                alert("Something wrong with examples")
+            }
         }
+        
+        // return null
+
     }
 
 
@@ -97,6 +129,9 @@ export const DataProvider = ({children}) =>{
             };
         });
         return result 
+    }
+    const getEntryByID = (id) =>{
+        return entries.find(e => e.id === id)
     }
     const getWordByID = (id) => {
         return words.find(w => w.id === id).word
@@ -114,11 +149,44 @@ export const DataProvider = ({children}) =>{
         return l
     }
 
+    // USER FUNCTIONS 
+    const getUserAnswers = async () => {
+        let response = await fetch(backendAddress+'/api/answers/',{
+            method: 'GET',
+            headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+        })
+
+        if(response.status === 200){
+            let answers = await response.json()
+            setAnswers(answers)
+        }else{
+            alert("Something wrong with fetching users answers")
+        }
+    }
+    const addAnswer = async (entry, progressIncrement) => {
+        fetch(backendAddress+'/api/addanswer/',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+            body: JSON.stringify({
+                entry,
+                progressIncrement,
+            })
+        })
+    }
+
+    // EXPORT CONTEXT
     let contextData = {
         entries:entries,
         words:words,
         examples:examples,
-
+        answers: answers, 
+        
         getEntries: getEntries,
         get_words:get_words,
         get_examples:get_examples,
@@ -127,6 +195,10 @@ export const DataProvider = ({children}) =>{
         getWordByID:getWordByID,
         getExampleByID:getExampleByID,
         getExampleListByEntry:getExampleListByEntry,
+        getEntryByID:getEntryByID,
+
+        getUserAnswers: getUserAnswers,
+        addAnswer: addAnswer,
     }
 
     return(

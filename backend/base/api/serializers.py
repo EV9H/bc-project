@@ -11,6 +11,10 @@ class NoteSerializer(ModelSerializer):
         model = Note
         fields = '__all__'
 
+class AnswerSerializer(ModelSerializer):
+    class Meta: 
+        model = Answer
+        fields = '__all__'
 
 class WordSerializer(ModelSerializer):
     class Meta:

@@ -8,6 +8,8 @@ from .views import MyTokenObtainPairView
 urlpatterns = [
     path('', views.getRoutes),
     path('notes/', views.getNotes),
+    path('answers/', views.getAnswers),
+    path('addanswer/', views.addAnswer),
     path('update/', views.updateVocab),
 
     path('allentry/', views.getAllEntry),

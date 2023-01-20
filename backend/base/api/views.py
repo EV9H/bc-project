@@ -139,3 +139,25 @@ def getWords(request):
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getAnswers(request):
+    user = request.user
+    answers = user.answer_set.all()
+    serializer = AnswerSerializer(answers, many = True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def addAnswer(request):
+    user = request.user
+    data = request.data
+    answer = Answer.objects.create(
+        user = User.objects.get( pk = user.id),
+        entry = Entry.objects.get(pk = data['entry']),
+        progressIncrement = data['progressIncrement']
+    )
+    serializer = AnswerSerializer(answer, many = False)
+    return Response(serializer.data)

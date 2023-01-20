@@ -18,14 +18,21 @@ Array.prototype.sample = function(){
 
 const FunctionPage = () => {
   let [wordList, setWordList] = useState([])
-  let {entries, words, examples,
-      getEntries, get_words, get_examples,
-      getWordByID,getExampleByID,getExampleListByEntry 
+
+  let {entries, words, examples, answers,
+      getEntries, get_words, get_examples, 
+      getWordByID,getExampleByID,getExampleListByEntry, getEntryByID,
+      getUserAnswers, addAnswer,
     } = useContext(DataContext)
   
-  useEffect(()=>{
+  useEffect( () => {
     generateRandomList(entries,10)
-  }, [])
+    getUserAnswers()
+
+    
+  }
+    
+  , [])
 
   const onChange = ({ target: { value } }) => {
     console.log('radio checked', value);
@@ -130,6 +137,16 @@ const FunctionPage = () => {
 
         </Space>
       </Space>
+      <Space>
+        <h3>YOUR ANSWERS</h3>
+        <ul>
+          {answers.map( ans => (
+            <li key = {ans.id}> {getWordByID(getEntryByID(ans.entry).word)}: {getEntryByID(ans.entry).meaning} - 熟练度加分 {ans.progressIncrement}</li>
+          ))}
+        </ul>
+      </Space>
+
+      <Button onClick ={() => {addAnswer(200, 1)}}>测试加答案</Button>
     </Layout>
   )
 }
