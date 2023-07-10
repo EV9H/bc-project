@@ -6,10 +6,10 @@ from base.models import *
 
 
 
-class NoteSerializer(ModelSerializer):
-    class Meta: 
-        model = Note
-        fields = '__all__'
+# class NoteSerializer(ModelSerializer):
+#     class Meta: 
+#         model = Note
+#         fields = '__all__'
 
 class AnswerSerializer(ModelSerializer):
     class Meta: 
