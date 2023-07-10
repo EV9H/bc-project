@@ -8,6 +8,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 from .serializers import *
 from base.models import *
@@ -37,13 +39,13 @@ def getRoutes(request):
     ]
     return Response(routes)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getNotes(request):
-    user = request.user
-    notes = user.note_set.all()
-    serializer = NoteSerializer(notes, many = True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def getNotes(request):
+#     user = request.user
+#     notes = user.note_set.all()
+#     serializer = NoteSerializer(notes, many = True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def updateVocab(request):
@@ -137,6 +139,7 @@ def getWords(request):
     return Response(serializer.data)
 
 class RegisterView(generics.CreateAPIView):
+    User = get_user_model()
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

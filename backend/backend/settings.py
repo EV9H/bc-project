@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
+    # "backend",
 ]
 
 REST_FRAMEWORK = {
@@ -156,6 +157,10 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
+
+
+# CUSTOMIZED USER MODEL
+AUTH_USER_MODEL = "base.CustomUser" 
 
 USE_I18N = True
 
