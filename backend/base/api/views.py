@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -8,10 +8,11 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 from .serializers import *
 from base.models import *
-
+from .forms import *
 import csv
 
 
@@ -37,13 +38,13 @@ def getRoutes(request):
     ]
     return Response(routes)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getNotes(request):
-    user = request.user
-    notes = user.note_set.all()
-    serializer = NoteSerializer(notes, many = True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def getNotes(request):
+#     user = request.user
+#     notes = user.note_set.all()
+#     serializer = NoteSerializer(notes, many = True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def updateVocab(request):
@@ -161,3 +162,42 @@ def addAnswer(request):
     )
     serializer = AnswerSerializer(answer, many = False)
     return Response(serializer.data)
+
+
+@api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
+def profileDetail(request):
+    if request.method == 'GET':
+    # print(request.user.id)
+    # profile = get_object_or_404(Profile, pk = request.user.id)
+    # print("REQUESTED PROFILE"+request.user)
+    # serializer = ProfileSerializer(profile, many = True)
+    # return Response(serializer.data)
+        user = request.user
+        
+        # profile = user.profile
+        profile, created = Profile.objects.get_or_create(user = request.user)
+        if created:
+            serializer = ProfileSerializer(created)
+        else: 
+            serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        user = request.user
+        profile = user.profile
+        serializer = ProfileSerializer(profile, data = request.data)
+   
+        # profile = Profile.objects.update(
+        #     user = User.objects.get( pk = user.id),
+        #     name = data['name'],
+        #     bio = data['bio']
+        # )
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+
+    
+

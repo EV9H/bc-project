@@ -8,3 +8,5 @@ admin.site.register(Word)
 admin.site.register(Example)
 admin.site.register(Entry)
 admin.site.register(Answer)
+admin.site.register(Profile)
+

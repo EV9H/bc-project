@@ -26,6 +26,11 @@ class EntrySerializer(ModelSerializer):
         model = Entry
         fields = '__all__'
 
+class ProfileSerializer(ModelSerializer):
+    class Meta: 
+        model = Profile
+        fields = '__all__'
+
 # class EntrySerializer(ModelSerializer):
 #     examples = serializers.SlugRelatedField(
 #         many=True, 

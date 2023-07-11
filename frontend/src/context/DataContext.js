@@ -11,7 +11,7 @@ export const DataProvider = ({children}) =>{
     let [examples, setExamples] = useState([])
     let [answers, setAnswers] = useState([])
     let [loading, setLoading] = useState(true)
-
+    let [profile, setProfile] = useState([])
 
     let {backendAddress, authTokens} = useContext(AuthContext)
     const getAll = async () => {
@@ -180,13 +180,46 @@ export const DataProvider = ({children}) =>{
         })
     }
 
+    // 
+    const getProfile = async () => {
+        let response = await fetch(backendAddress+'/api/profile/',{
+            method: 'GET',
+            headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+        })
+
+        if(response.status === 200){
+            let profile = await response.json()
+            setProfile(profile)
+        }else{
+            alert("Something wrong with fetching users profile")
+        }
+    }
+    const editProfile = async (user,name, bio) => {
+        fetch(backendAddress+'/api/profile/',{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+            body: JSON.stringify({
+                user: user['user_id'],
+                name,
+                bio
+            })
+        })
+    }
+
     // EXPORT CONTEXT
     let contextData = {
         entries:entries,
         words:words,
         examples:examples,
         answers: answers, 
-        
+        profile: profile, 
+
         getEntries: getEntries,
         get_words:get_words,
         get_examples:get_examples,
@@ -199,6 +232,10 @@ export const DataProvider = ({children}) =>{
 
         getUserAnswers: getUserAnswers,
         addAnswer: addAnswer,
+        
+        getProfile: getProfile,
+        editProfile: editProfile,
+
     }
 
     return(
