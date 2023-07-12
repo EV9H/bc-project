@@ -9,9 +9,9 @@ export const DataProvider = ({children}) =>{
     let [entries, setEntries] = useState([])
     let [words, setWords] = useState([])
     let [examples, setExamples] = useState([])
-    let [answers, setAnswers] = useState([])
+    let [progress, setProgress] = useState([])
     let [loading, setLoading] = useState(true)
-
+    let [profile, setProfile] = useState([])
 
     let {backendAddress, authTokens} = useContext(AuthContext)
     const getAll = async () => {
@@ -62,6 +62,7 @@ export const DataProvider = ({children}) =>{
             if(response.status === 200){
                 let data = await response.json()
                 setEntries(data)
+                console.log("FETCH SUCCESSFUL")
                 localStorage.setItem('entries', JSON.stringify(data))
             }else{
                 alert("Something Wrong")
@@ -134,6 +135,7 @@ export const DataProvider = ({children}) =>{
         return entries.find(e => e.id === id)
     }
     const getWordByID = (id) => {
+       
         return words.find(w => w.id === id).word
     }
 
@@ -150,8 +152,8 @@ export const DataProvider = ({children}) =>{
     }
 
     // USER FUNCTIONS 
-    const getUserAnswers = async () => {
-        let response = await fetch(backendAddress+'/api/answers/',{
+    const getUserProgress = async () => {
+        let response = await fetch(backendAddress+'/api/getProgress/',{
             method: 'GET',
             headers:{
             'Content-Type': 'application/json',
@@ -160,14 +162,14 @@ export const DataProvider = ({children}) =>{
         })
 
         if(response.status === 200){
-            let answers = await response.json()
-            setAnswers(answers)
+            let progress = await response.json()
+            setProgress(progress)
         }else{
-            alert("Something wrong with fetching users answers")
+            alert("Something wrong with fetching users progress")
         }
     }
-    const addAnswer = async (entry, progressIncrement) => {
-        fetch(backendAddress+'/api/addanswer/',{
+    const addUserProgress = async (entry, progress) => {
+        fetch(backendAddress+'/api/addProgress/',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
@@ -175,7 +177,39 @@ export const DataProvider = ({children}) =>{
             },
             body: JSON.stringify({
                 entry,
-                progressIncrement,
+                progress,
+            })
+        })
+    }
+
+    // 
+    const getProfile = async () => {
+        let response = await fetch(backendAddress+'/api/profile/',{
+            method: 'GET',
+            headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+        })
+
+        if(response.status === 200){
+            let profile = await response.json()
+            setProfile(profile)
+        }else{
+            alert("Something wrong with fetching users profile")
+        }
+    }
+    const editProfile = async (user,name, bio) => {
+        fetch(backendAddress+'/api/profile/',{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+            body: JSON.stringify({
+                user: user['user_id'],
+                name,
+                bio
             })
         })
     }
@@ -185,8 +219,9 @@ export const DataProvider = ({children}) =>{
         entries:entries,
         words:words,
         examples:examples,
-        answers: answers, 
-        
+        progress: progress, 
+        profile: profile, 
+
         getEntries: getEntries,
         get_words:get_words,
         get_examples:get_examples,
@@ -197,8 +232,12 @@ export const DataProvider = ({children}) =>{
         getExampleListByEntry:getExampleListByEntry,
         getEntryByID:getEntryByID,
 
-        getUserAnswers: getUserAnswers,
-        addAnswer: addAnswer,
+        getUserProgress: getUserProgress,
+        addUserProgress: addUserProgress,
+        
+        getProfile: getProfile,
+        editProfile: editProfile,
+
     }
 
     return(

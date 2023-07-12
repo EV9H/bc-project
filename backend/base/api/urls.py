@@ -7,9 +7,9 @@ from .views import MyTokenObtainPairView
 
 urlpatterns = [
     path('', views.getRoutes),
-    path('notes/', views.getNotes),
-    path('answers/', views.getAnswers),
-    path('addanswer/', views.addAnswer),
+
+    # path('answers/', views.getAnswers),
+    # path('addanswer/', views.addAnswer),
     path('update/', views.updateVocab),
 
     path('allentry/', views.getAllEntry),
@@ -20,5 +20,12 @@ urlpatterns = [
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-
+    path('profile/', views.profileDetail),
+    path('allclass/', views.getAllClassGroupView),
+    path('allstudent/', views.getAllStudentView),
+    path('addStudent/', views.addStudentView),
+    path('searchClass/', views.getAllStudentInClassView),
+    
+    path('getProgress/', views.getStudentProgress),
+    path('addProgress/', views.addStudentProgress)
 ]

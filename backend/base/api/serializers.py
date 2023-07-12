@@ -11,10 +11,6 @@ from base.models import *
 #         model = Note
 #         fields = '__all__'
 
-class AnswerSerializer(ModelSerializer):
-    class Meta: 
-        model = Answer
-        fields = '__all__'
 
 class WordSerializer(ModelSerializer):
     class Meta:
@@ -24,6 +20,11 @@ class WordSerializer(ModelSerializer):
 class EntrySerializer(ModelSerializer):
     class Meta:
         model = Entry
+        fields = '__all__'
+
+class ProfileSerializer(ModelSerializer):
+    class Meta: 
+        model = Profile
         fields = '__all__'
 
 # class EntrySerializer(ModelSerializer):
@@ -47,7 +48,21 @@ class ExampleSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class StudentProgressSerializer(ModelSerializer):
+    class Meta: 
+        model = StudentProgress
+        fields = '__all__'
 
+class StudentSerializer(ModelSerializer):
+    class Meta: 
+        model = Student
+        fields = '__all__'
+
+class ClassGroupSerializer(ModelSerializer):
+    class Meta: 
+        model = ClassGroup
+        fields = '__all__'
+        
 
 
 UserModel = get_user_model()

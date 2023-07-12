@@ -125,16 +125,28 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': '6EsJ4N7gAa8G7Mx1xfb1',
+#         'HOST': 'containers-us-west-48.railway.app',
+#         'PORT': '6024',
+#     }
+# }
+#LOCAL
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'beici-db',
         'USER': 'postgres',
-        'PASSWORD': '6EsJ4N7gAa8G7Mx1xfb1',
-        'HOST': 'containers-us-west-48.railway.app',
-        'PORT': '6024',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
