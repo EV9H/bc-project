@@ -12,12 +12,13 @@ import DataContext from '../context/DataContext';
 
 const AccountPage = () => {
   let {user, logoutUser} = useContext(AuthContext)
-  let {backendAddress, authTokens} = useContext(AuthContext)
+  // let {backendAddress, authTokens} = useContext(AuthContext)
 
   let {profile,getProfile, editProfile} = useContext(DataContext)
 
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
+  const [name, setName] = useState(null);
+  const [bio, setBio] = useState(null);
+  const [ready, setReady] = useState(false)
   // function handleSubmit(e){
   //   console.log("HANDLED SUBMIT")
   //     e.preventDefault();
@@ -29,24 +30,30 @@ const AccountPage = () => {
   
   useEffect( () => {
     getProfile()
-  }, [])
-  console.log(profile.username)
+    .then(setName(profile.name))
+    .then(setBio(profile.bio))
+    .then(console.log(name, bio))
+    .then(console.log(profile.name))
+    .then(setReady(true))
+  },[])
+  
   return (
-    <div className = "bg3" id = "account-page">
+    <div className = "bg3 white" id = "account-page">
       <p className = "white">我的账户</p>
-      <p className = "white">姓名：{profile.name}</p>
-      <p className = "white">个人简介：{profile.bio}</p>
+      {/* <p className = "white">姓名：{profile.name}</p> */}
+      {/* <p className = "white">个人简介：{profile.bio}</p> */}
       {user && <p> 用户名: {user.username}</p>}
       
       <form>
-        <label style = {{color: 'white'}}>
+        <label>
           姓名:
-          </label>
-          <input type = "text" value = {name} onChange={(e) => setName(e.target.value)}/>
-          <label style = {{color: 'white'}}>
-          个人简介:
-          </label>
-          <input type = "text" value = {bio} onChange={(e) => setBio(e.target.value)}/>
+        </label>
+        
+        {ready && <input type = "text" defaultValue = {profile.name} onChange={(e) => setName(e.target.value)}/>}
+        <label>
+        个人简介:
+        </label>
+        {ready && <input type = "text" defaultValue = {profile.bio} onChange={(e) => setBio(e.target.value)}/>}
         
         <button type = 'submit' onClick={ () => {editProfile(user,name, bio)} }> SUBMIT</button>
       </form>

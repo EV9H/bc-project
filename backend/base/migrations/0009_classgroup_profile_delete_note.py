@@ -23,7 +23,6 @@ class Migration(migrations.Migration):
                 ('class_id', models.IntegerField(unique=True)),
                 ('password', models.TextField(null=True)),
             ],
-            bases=('auth.group',),
             managers=[
                 ('objects', django.contrib.auth.models.GroupManager()),
             ],

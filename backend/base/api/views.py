@@ -71,7 +71,7 @@ def updateVocab(request):
 
     #     return new_entry
     def get_new_from_csv(filepath):
-        file = open(filepath)
+        file = open(filepath,'r',encoding = 'UTF-8')
         csvreader = csv.reader(file)
         rows = []
         d = []
@@ -143,24 +143,25 @@ class RegisterView(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getAnswers(request):
+# @permission_classes([IsAuthenticated])
+def getStudentProgress(request):
+    
     user = request.user
-    answers = user.answer_set.all()
-    serializer = AnswerSerializer(answers, many = True)
+    p = user.studentprogress_set.all()
+    serializer = StudentProgressSerializer(p, many = True)
     return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def addAnswer(request):
+def addStudentProgress(request):
     user = request.user
     data = request.data
-    answer = Answer.objects.create(
+    studentProgress = StudentProgress.objects.create(
         user = User.objects.get( pk = user.id),
         entry = Entry.objects.get(pk = data['entry']),
-        progressIncrement = data['progressIncrement']
+        progress = data['progress']
     )
-    serializer = AnswerSerializer(answer, many = False)
+    serializer = StudentProgressSerializer(studentProgress, many = False)
     return Response(serializer.data)
 
 
@@ -178,7 +179,8 @@ def profileDetail(request):
         # profile = user.profile
         profile, created = Profile.objects.get_or_create(user = request.user)
         if created:
-            serializer = ProfileSerializer(created)
+            print("CREATED A NEW profile")
+            serializer = ProfileSerializer(profile)
         else: 
             serializer = ProfileSerializer(profile)
         return Response(serializer.data)
@@ -200,4 +202,47 @@ def profileDetail(request):
 
 
     
+@api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+def addStudentView(request):
+    
+    user = request.user
+    isStaff = user.profile.staff
+    
+    if isStaff:
+        serializer = StudentSerializer(data = request.data)
 
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+    else: 
+        return False
+        
+@api_view(['GET'])
+def getAllStudentView(request):
+    
+    students = Student.objects.all()
+    serializer = StudentSerializer(students)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getAllClassGroupView(request):
+    
+    classes = ClassGroup.objects.all()
+    serializer = StudentSerializer(classes)
+
+    return Response(serializer.data)
+    
+@api_view(['GET'])
+def getAllStudentInClassView(request):
+    group_id = request.data['group_id']
+    classGroup = ClassGroup.objects.get(id = group_id)
+    students = classGroup.user_set.all()
+    serializer = StudentSerializer(students)
+
+    return Response(serializer.data)
+    
+   

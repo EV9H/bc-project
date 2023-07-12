@@ -80,13 +80,14 @@ class Entry(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 #     user_base = models.ManyToManyField(Entry)
 
-class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+class StudentProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, null=True)
-    progressIncrement = models.FloatField(default= 0.0)
+    progress = models.FloatField(default= 0.0)
 
     def __str__(self):
-        return (self.user.username + "/" + self.entry.meaning + "/" + str(self.progressIncrement))
+        return (self.user.username + "/" + self.entry.meaning + "/" + str(self.progress))
+
 
 # class Word(models.Model):
 #     name = models.CharField(max_length=40)
@@ -124,8 +125,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, null = True, blank=True)
     name = models.TextField(max_length=64, null = True, blank=True)
-
-
+    year = models.IntegerField(null=True,blank=True)
+    staff = models.BooleanField(default=True)
     # profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
 
     # def __str__(self):
@@ -133,11 +134,33 @@ class Profile(models.Model):
     @property
     def owner(self):
         return self.user
-    
-class ClassGroup(Group):
-    description = models.TextField(blank=True)
-    class_id = models.IntegerField(unique=True)
-    password = models.TextField(null = True)
-    users = models.ManyToManyField(User, blank = True)
+
+
+
+
+class ClassGroup(models.Model):
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank = True)    
+    name = models.TextField(blank = True,null = True)
+    description = models.TextField(blank=True, null= True)
+    password = models.TextField(null = True, blank= True)
+
+
+
     def __str__(self):
         return (self.description)
+    
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    classGroup = models.ForeignKey(ClassGroup, on_delete= models.DO_NOTHING)
+    
+        
+    @property
+    def owner(self):
+        return self.user
+
+class Staff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    @property
+    def owner(self):
+        return self.user
