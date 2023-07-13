@@ -49,38 +49,39 @@ const HomePage = () => {
     
       <Layout id = "home-page" style ={{marginBottom: "24px", marginTop: "24px",}}>
         <Row gutter= {16}>
-          <Card title = "已完成功能" style = {{width: 300, margin:16,background: colorBgContainer,}} cover={
+          <Card title = "本土化 Localized" style = {{width: 300, margin:16,background: colorBgContainer,}} cover={
                   <img
                     alt="example"
                     src="https://picsum.photos/300/300"
                   />
                 } >
-            <ul>
-              <li>登陆</li>
-              <li>注册</li>
+            <ul style = {{listStyle: 'none', padding: 0}}>
+              <li >主要由教师管理的学习系统，帮助国内初、高中学生无法使用电子设备时的高效学习。</li>
+              <li style = {{marginTop:"10px"}}>A learning system taylored for instructors to administrater. In aid of learning by students who lack constant access to electronic devices in school</li>
             </ul>
             
           </Card>
-          <Card title  = "In Progress 功能"  style = {{width: 300,margin:16,}} cover={
+          <Card title  = "效率 Efficiency"  style = {{width: 300,margin:16,}} cover={
                   <img
                     alt="example"
                     src="https://picsum.photos/350/350"
                   />
                 }>  
-            <ul>
-              <li>词汇库 by Louis Wu</li>
-              <li>Function Page Setup - sample 背词软件页 </li>
-              
+            <ul style = {{listStyle: 'none', padding: 0}}>
+              <li>支持一键批量打印、扫描，与一目了然的学生学习进度</li>
+              <li style = {{marginTop:"10px"}}>Support bulk printing and scanning. Overview student statistics in one click.</li>
+
             </ul>
           </Card>
-          <Card title  = "To-do 功能"  style = {{width: 300,margin:16,}} cover={
+          <Card title  = "个性化 Individualized"  style = {{width: 300,margin:16,}} cover={
                   <img
                     alt="example"
                     src="https://picsum.photos/400/400"
                   />
                 }>  
-            <ul>
-              <li>账户-specific 词语完成量</li>
+            <ul style = {{listStyle: 'none', padding: 0}}>
+              <li>针对学生学习情况，使用机器学习，为每个产出最优化、个性化的学习任务</li>
+              <li style = {{marginTop:"10px"}}>Using machine learning, produce individualized learning tasks in regard of student's own learning profile</li>
             </ul>
           </Card>
 

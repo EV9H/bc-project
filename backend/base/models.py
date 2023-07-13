@@ -150,17 +150,17 @@ class ClassGroup(models.Model):
         return (self.description)
     
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     classGroup = models.ForeignKey(ClassGroup, on_delete= models.DO_NOTHING)
     
         
-    @property
-    def owner(self):
-        return self.user
+    # @property
+    # def owner(self):
+    #     return self.user
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    @property
-    def owner(self):
-        return self.user
+    # @property
+    # def owner(self):
+    #     return self.user

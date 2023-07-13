@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext} from "react";
 import AuthContext from "./AuthContext";
 import {backendAddress} from "./AuthContext";
 
+
 const DataContext = createContext()
 export default DataContext
 
@@ -12,8 +13,11 @@ export const DataProvider = ({children}) =>{
     let [progress, setProgress] = useState([])
     let [loading, setLoading] = useState(true)
     let [profile, setProfile] = useState([])
-
-    let {backendAddress, authTokens} = useContext(AuthContext)
+    let [classList, setClassList] = useState([])
+    
+    
+    let {backendAddress, authTokens,user} = useContext(AuthContext)
+    
     const getAll = async () => {
         if(entries.length === 0){
             console.log("GETTING ALL DATA")
@@ -214,6 +218,83 @@ export const DataProvider = ({children}) =>{
         })
     }
 
+    const createClass = async (values) => {
+        let response = fetch(backendAddress+'/api/createClass/',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+            body: JSON.stringify({
+                'admin': user['user_id'],
+                'name': values.name,
+                'description': values.description,
+                'password': values.password,
+            })
+        })
+
+        let data = await response.json()
+        if(response.status == 200){
+            alert("创建成功")
+        }else{
+            alert("Some error occured.")
+        }
+    }
+
+
+    const joinClass = async (values) => {
+        let response = await fetch(backendAddress+'/api/joinClass/',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+            body: JSON.stringify({
+                'name': values.name,
+                'password': values.password,
+            })
+        })
+
+        let data = await response.json()
+        if(response.status == 200){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    let getClassList = async () => {
+        let response = await fetch(backendAddress+'/api/allclass/',{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+
+        
+        if(response.status === 200){
+            let e = await response.json()
+            setClassList(e)
+        }else{
+            console.log("ERROR:", response)
+            alert("Something wrong with class list")
+        }
+    }
+
+    // const editClass = asyn(user, class) => {
+    //     fetch(backendAddress+'/api/class/',{
+    //         method: 'PUT',
+    //         headers:{
+    //             'Content-Type': 'application/json',
+    //             'Authorization': 'Bearer ' + String(authTokens.access)
+    //         },
+    //         body: JSON.stringify({
+    //             user: user['user_id'],
+    //             class
+    //         })
+    //     })
+    // }
+
     // EXPORT CONTEXT
     let contextData = {
         entries:entries,
@@ -221,6 +302,7 @@ export const DataProvider = ({children}) =>{
         examples:examples,
         progress: progress, 
         profile: profile, 
+        classList: classList,
 
         getEntries: getEntries,
         get_words:get_words,
@@ -237,7 +319,10 @@ export const DataProvider = ({children}) =>{
         
         getProfile: getProfile,
         editProfile: editProfile,
-
+        
+        createClass:createClass,
+        joinClass:joinClass,
+        getClassList:getClassList,
     }
 
     return(

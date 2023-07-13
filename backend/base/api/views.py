@@ -200,7 +200,27 @@ def profileDetail(request):
         else:
             return Response(serializer.errors)
 
+@api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
+def studentClassView(request):
+    if request.method == 'GET':
+        student = get_object_or_404(Student, user = request.data['user'])
+        classes = student.classgroup_set.all()
+        serializer = ClassGroupSerializer(classes, many = True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        # user = request.user
+        classGroup = request.data['class']
+        student = Student.objects.get_or_create(user = request.data['user'])
 
+        serializer = StudentSerializer(student, data = classGroup, many=True)
+
+   
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
     
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
@@ -224,25 +244,55 @@ def addStudentView(request):
 def getAllStudentView(request):
     
     students = Student.objects.all()
-    serializer = StudentSerializer(students)
+    serializer = StudentSerializer(students, many=True)
 
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getAllClassGroupView(request):
-    
+def getAllClassGroupView(request): 
     classes = ClassGroup.objects.all()
-    serializer = StudentSerializer(classes)
-
+    serializer = ClassGroupSerializer(classes, many=True)
     return Response(serializer.data)
-    
+
 @api_view(['GET'])
 def getAllStudentInClassView(request):
     group_id = request.data['group_id']
     classGroup = ClassGroup.objects.get(id = group_id)
     students = classGroup.user_set.all()
-    serializer = StudentSerializer(students)
+    serializer = StudentSerializer(students, many=True)
 
     return Response(serializer.data)
     
-   
+
+@api_view(['POST'])
+def createClass(request):
+    
+    admin = request.user
+    isStaff = admin.profile.staff
+
+    if isStaff:
+        classGroup = ClassGroup.objects.create(
+            admin = User.objects.get( pk = admin.id),
+            name = request.data['name'],
+            password = request.data['password'],
+            description = request.data['description']
+        )
+
+        serializer = ClassGroupSerializer(classGroup)
+        # if serializer.is_valid():
+
+        #     serializer.save()
+        #     return Response(serializer.data)
+        # else:
+        #     print(serializer.errors)
+        return Response(serializer.data)
+    else:
+        return False
+    
+@api_view(['POST'])
+def joinClass(request):
+    classGroup = get_object_or_404(ClassGroup, name = request.data['name'], password = request.data['password']) 
+    student, created = Student.objects.get_or_create(user = request.user,classGroup = classGroup)
+    serializer = StudentSerializer(student)
+    return Response(serializer.data)
+    

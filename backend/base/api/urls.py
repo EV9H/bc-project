@@ -23,9 +23,14 @@ urlpatterns = [
     path('profile/', views.profileDetail),
     path('allclass/', views.getAllClassGroupView),
     path('allstudent/', views.getAllStudentView),
-    path('addStudent/', views.addStudentView),
     path('searchClass/', views.getAllStudentInClassView),
+    
+    path('addStudent/', views.addStudentView),      # enroll
+    path('createClass/', views.createClass),
+    path('joinClass/', views.joinClass),
     
     path('getProgress/', views.getStudentProgress),
     path('addProgress/', views.addStudentProgress)
+
+    
 ]

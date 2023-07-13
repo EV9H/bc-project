@@ -5,6 +5,7 @@ import TutorialPage from './pages/TutorialPage';
 import FunctionPage from './pages/FunctionPage';
 import AccountPage from './pages/AccountPage';
 import SignupPage from './pages/SignupPage';
+import EnrollPage from './pages/EnrollPage';
 
 import Header__ from './components/Header'
 import PrivateRoute from './utils/PrivateRoute'
@@ -13,6 +14,8 @@ import AuthProviderRoute from './utils/AuthProviderRoute';
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
 
 import {Layout } from 'antd'
+import ManagePage from './pages/ManagePage';
+
 
 const { Footer } = Layout;
 
@@ -34,7 +37,9 @@ function App() {
                   <Route path = "/register" element = {<SignupPage/>}/>
                   <Route exact path = "/start" element = {<PrivateRoute><FunctionPage/></PrivateRoute>}/>
                   <Route path = '/account' element = {<PrivateRoute><AccountPage/></PrivateRoute>}/>
-
+                  <Route path = '/enroll' element = {<PrivateRoute><EnrollPage/></PrivateRoute>}/>
+                  <Route path = '/manage' element = {<PrivateRoute><ManagePage/></PrivateRoute>}/>
+                  
               </Route>
 
 
