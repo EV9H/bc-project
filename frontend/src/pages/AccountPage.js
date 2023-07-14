@@ -3,11 +3,11 @@ import React, {useContext,useState,useEffect} from 'react'
 import AuthContext from '../context/AuthContext'
 
 // ANT DESIGN 
-import {Button } from 'antd'
+import {Button, theme, Layout, Divider, Space, Row, Col, Avatar} from 'antd'
 // CSS
 import '../css/styles.css'
 import DataContext from '../context/DataContext';
-
+import { UserOutlined } from '@ant-design/icons';
 
 
 const AccountPage = () => {
@@ -27,41 +27,54 @@ const AccountPage = () => {
   //     const formJson = Object.fromEntries(formData.entries());
   //     console.log(formJson);
   // }
-  
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   useEffect( () => {
     getProfile()
     .then(setName(profile.name))
     .then(setBio(profile.bio))
-    .then(console.log(name, bio))
-    .then(console.log(profile.name))
     .then(setReady(true))
   },[])
   
   return (
-    <div className = "bg3 white" id = "account-page">
-      <p className = "white">我的账户</p>
-      {/* <p className = "white">姓名：{profile.name}</p> */}
-      {/* <p className = "white">个人简介：{profile.bio}</p> */}
-      {user && <p> 用户名: {user.username}</p>}
-      
-      <form>
-        <label>
-          姓名:
-        </label>
-        
-        {ready && <input type = "text" defaultValue = {profile.name} onChange={(e) => setName(e.target.value)}/>}
-        <label>
-        个人简介:
-        </label>
-        {ready && <input type = "text" defaultValue = {profile.bio} onChange={(e) => setBio(e.target.value)}/>}
-        
-        <button type = 'submit' onClick={ () => {editProfile(user,name, bio)} }> SUBMIT</button>
-      </form>
-      <p>班级：</p>
-      <p>进度：</p>
+    <Layout style = {{minHeight: '95vh', background: colorBgContainer}}>
 
-      {user &&  <button onClick={logoutUser}>登出</button>}
-    </div>
+
+      
+      <Space id = "account-page" style = {{background: colorBgContainer, display:'flex', flexDirection:'column'}}>
+        <p>我的账户</p>
+        {/* <p className = "white">姓名：{profile.name}</p> */}
+        {/* <p className = "white">个人简介：{profile.bio}</p> */}
+        {user && <p> 用户名: {user.username}</p>}
+        <Avatar shape="square" size={64} icon={<UserOutlined />} />
+        
+        <Row span = {24}>
+          <Col span = {12}>
+            <Row span = {12} style = {{display:'flex', textAlign:'center'}}>
+            姓名:
+            {ready && <input type = "text" defaultValue = {profile.name} onChange={(e) => setName(e.target.value)}/>}
+            </Row>
+            <Row span = {12}>
+            个人简介:
+            {ready && <input type = "text" defaultValue = {profile.bio} onChange={(e) => setBio(e.target.value)}/>}
+            </Row>
+          </Col>
+          
+
+        </Row>
+        
+          <Button type = 'primary' onClick={ () => {editProfile(user,name, bio)} } > 保存</Button>
+       
+        
+        
+        <p>班级：</p>
+        <p>进度：</p>
+
+        {user &&  <Button type = 'primary' onClick={logoutUser}>登出</Button>}
+      </Space>
+    </Layout>
   )
 }
 

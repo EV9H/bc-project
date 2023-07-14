@@ -31,6 +31,12 @@ const sideItems2 =
       children: [{key: 'create',label: `创建`}],
       
     },
+    {
+      key: '3',
+      icon: React.createElement(UserOutlined),
+      label:'我的班级',
+      children: [{key: 'myClassList',label: `班级1`}],
+    }
   ]
 
 const ManagePage = () => {
@@ -102,7 +108,7 @@ const ManagePage = () => {
             </Sider>
             <Layout style = {{minHeight: '100vh',}}>
               {joinClassVisible && 
-                <Space direction="vertical" size="middle" style={{ display: 'flex', background:colorBgContainer, minHeight: '95vh'}}>
+                <Space direction="vertical" size="middle" style={{ display: 'flex', background:colorBgContainer, minHeight: '95vh' , padding:'5%'}}>
                 
                     <Card title = "班级列表 Class List" style = {{ width: '50%', textAlign:'center', margin:'auto'}}>
 

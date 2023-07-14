@@ -37,12 +37,12 @@ const JoinClassForm = () => {
       
       <Form
       name="create-class"
-      className="login-form"
 
       onFinish={ (values) => onFinish(values)}
+      
     >
       <Form.Item
-        name="name"
+        name="className"
         rules={[
           {
             required: true,
@@ -54,7 +54,7 @@ const JoinClassForm = () => {
         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="班级名称" className='input-field'/>
       </Form.Item>
       <Form.Item
-        name="password"
+        name="classPassword"
       >
         <Input
           prefix={<LockOutlined className="site-form-item-icon" />}

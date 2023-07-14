@@ -26,15 +26,15 @@ const CreateClassForm = () => {
     createClass(values);
   };
   return (
-      
+    
       <Form
       name="create-class"
-      className="login-form"
 
       onFinish={ (values) => onFinish(values)}
+      style = {{padding: '10%'}}
     >
       <Form.Item
-        name="name"
+        name="createClassName"
         rules={[
           {
             required: true,
@@ -45,7 +45,7 @@ const CreateClassForm = () => {
         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="班级名称" className='input-field'/>
       </Form.Item>
       <Form.Item
-        name="password"
+        name="createClassPw"
         // rules={[
         //   {
         //     required: false,
@@ -60,7 +60,7 @@ const CreateClassForm = () => {
         />
       </Form.Item>
       <Form.Item
-        name="description"
+        name="createClassDescription"
       >
         <Input
           prefix={<LockOutlined className="site-form-item-icon" />}

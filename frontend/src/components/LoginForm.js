@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext'
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, ConfigProvider} from 'antd';
+import { Button, Checkbox, Form, Input, ConfigProvider, theme} from 'antd';
 
 import {Link, useNavigate} from 'react-router-dom'
 
@@ -23,14 +23,11 @@ const LoginForm = () => {
       // console.log('Received values of form: ', values.username);
       loginUserAnt(values);
     };
+    const {
+      token: { colorBgContainer },
+    } = theme.useToken();
     return (
-        <ConfigProvider
-          theme={{
-              token: {
-                  colorPrimary: '#00b96b',
-              },
-              }}
-        >
+      
             <Form
             name="normal_login"
             className="login-form"
@@ -38,6 +35,9 @@ const LoginForm = () => {
               remember: true,
             }}
             onFinish={ (values) => onFinish(values)}
+            style={{
+              background: colorBgContainer,
+              }}
           >
             <Form.Item
               name="username"
@@ -84,7 +84,7 @@ const LoginForm = () => {
               Or <Link to = "/register" style = {{  textDecoration: "none", color: 'black', width: 100}}>注册 </Link>
 
           </Form>
-        </ConfigProvider>
+        
         
     )
   }
