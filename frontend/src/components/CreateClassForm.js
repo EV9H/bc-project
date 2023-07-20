@@ -22,8 +22,8 @@ const CreateClassForm = () => {
   let {createClass} = useContext(DataContext)
   
   const onFinish = async (values) => {
-    // console.log('Received values of form: ', values.username);
-    createClass(values);
+    // console.log('Received values of form: ', values);
+    createClass(values.createClassName, values.createClassDescription, values.createClassPw);
   };
   return (
     

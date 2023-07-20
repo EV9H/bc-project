@@ -30,7 +30,8 @@ urlpatterns = [
     path('joinClass/', views.joinClass),
     
     path('getProgress/', views.getStudentProgress),
-    path('addProgress/', views.addStudentProgress)
-
+    path('addProgress/', views.addStudentProgress),
+    path('getClassByAdmin/', views.getClassByAdmin),
+    path('classGroupDetail/<int:id>', views.classGroupDetail),
     
 ]

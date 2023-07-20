@@ -151,6 +151,7 @@ def getStudentProgress(request):
     serializer = StudentProgressSerializer(p, many = True)
     return Response(serializer.data)
 
+# change a *user*'s progress 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addStudentProgress(request):
@@ -164,7 +165,7 @@ def addStudentProgress(request):
     serializer = StudentProgressSerializer(studentProgress, many = False)
     return Response(serializer.data)
 
-
+# get/put profile of user
 @api_view(['GET','PUT'])
 @permission_classes([IsAuthenticated])
 def profileDetail(request):
@@ -200,6 +201,7 @@ def profileDetail(request):
         else:
             return Response(serializer.errors)
 
+# ? get the classes which the student is in 
 @api_view(['GET','PUT'])
 @permission_classes([IsAuthenticated])
 def studentClassView(request):
@@ -222,8 +224,9 @@ def studentClassView(request):
         else:
             return Response(serializer.errors)
     
+# adding a "Student" table to a user
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def addStudentView(request):
     
     user = request.user
@@ -239,7 +242,8 @@ def addStudentView(request):
             return Response(serializer.errors)
     else: 
         return False
-        
+
+# get all existing students (Non-abstract)
 @api_view(['GET'])
 def getAllStudentView(request):
     
@@ -248,12 +252,14 @@ def getAllStudentView(request):
 
     return Response(serializer.data)
 
+# get all existing classes 
 @api_view(['GET'])
 def getAllClassGroupView(request): 
     classes = ClassGroup.objects.all()
     serializer = ClassGroupSerializer(classes, many=True)
     return Response(serializer.data)
 
+# get all student in this class
 @api_view(['GET'])
 def getAllStudentInClassView(request):
     group_id = request.data['group_id']
@@ -263,12 +269,15 @@ def getAllStudentInClassView(request):
 
     return Response(serializer.data)
     
-
+# Create a class
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def createClass(request):
     
     admin = request.user
     isStaff = admin.profile.staff
+
+    print(request.data)
 
     if isStaff:
         classGroup = ClassGroup.objects.create(
@@ -279,20 +288,59 @@ def createClass(request):
         )
 
         serializer = ClassGroupSerializer(classGroup)
-        # if serializer.is_valid():
-
-        #     serializer.save()
-        #     return Response(serializer.data)
-        # else:
-        #     print(serializer.errors)
         return Response(serializer.data)
     else:
         return False
     
+
+# Join class using class name and password
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def joinClass(request):
     classGroup = get_object_or_404(ClassGroup, name = request.data['name'], password = request.data['password']) 
     student, created = Student.objects.get_or_create(user = request.user,classGroup = classGroup)
     serializer = StudentSerializer(student)
     return Response(serializer.data)
+        
+# Get class administrated/created by this user
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def getClassByAdmin(request):
+    # print(request.user.id)
+    classGroup = ClassGroup.objects.filter(admin = request.user.id)
     
+    serializer = ClassGroupSerializer(classGroup, many = True)
+    return Response(serializer.data)
+
+# get/put classGroup detail 
+# name, id, description, *password, *students, ** date_created
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def classGroupDetail(request,id):
+    if request.method == 'GET':
+    # print(request.user.id)
+    # profile = get_object_or_404(Profile, pk = request.user.id)
+    # print("REQUESTED PROFILE"+request.user)
+    # serializer = ProfileSerializer(profile, many = True)
+    # return Response(serializer.data)
+        # classid = request.data.id
+
+        classGroup = ClassGroup.objects.get(id = id)
+        
+        serializer = ClassGroupSerializer(classGroup)
+        return Response(serializer.data)
+    # elif request.method == 'PUT':
+        # user = request.user
+        # profile = user.profile
+        # serializer = ProfileSerializer(profile, data = request.data)
+   
+        # # profile = Profile.objects.update(
+        # #     user = User.objects.get( pk = user.id),
+        # #     name = data['name'],
+        # #     bio = data['bio']
+        # # )
+        # if(serializer.is_valid()):
+        #     serializer.save()
+        #     return Response(serializer.data)
+        # else:
+        #     return Response(serializer.errors)
