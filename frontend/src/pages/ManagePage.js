@@ -11,12 +11,101 @@ import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/
 import '../css/styles.css'
 import CreateClassForm from '../components/CreateClassForm'
 import JoinClassForm from '../components/JoinClassForm';
+import MyClassInfo from '../components/MyClassInfo';
 
 const { Header, Content, Sider } = Layout;
 
 
 
-const sideItems2 = 
+
+const ManagePage = () => {
+  
+  let {getClassDetail, classDetail} = useContext(DataContext)
+  
+  let {getClassList,classList, getClassByAdmin, classListByAdmin} = useContext(DataContext)
+
+  const [createClassVisible, setCreateClassVisible] = useState(false)
+  const [joinClassVisible, setJoinClassVisible] = useState(true)
+  const [joinPromptVisible, setJoinPromptVisible] = useState(false)
+  const [myClassVisible, setMyClassVisible] = useState(false)
+
+  const [selectedMyClass, setSelectedMyClass] = useState(-1)
+  const [classes, setClasses] = useState("")
+  const [classData, setClassData] = useState()
+  const [loading, setLoading] = useState(true)
+  const [collapsed, setCollapsed] = useState(false);
+
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  
+  useEffect(  ()=> {
+    getClassList()
+    .then(setClasses(classList))    
+    .then(getClassByAdmin())
+    .then(setLoading(false))
+    // .then(console.log(classListByAdmin))
+  },[]) 
+
+  useEffect(  ()=> {
+    setClassData(classDetail)
+  },[classDetail]) 
+
+  function handleClick(e){
+    setJoinPromptVisible(true)
+    localStorage.setItem('selectedClass',e.name)
+    // console.log(e)
+  }
+  // const fetchClassDetail = async (k) => {
+  //     await getClassDetail(k)
+  //     .then(classDetail)
+  // }
+  function handleMenuClick(key){
+    if(key === 'join'){
+      getClassList()
+      .then(setClasses(classList))  
+      setJoinClassVisible(true)
+
+      setCreateClassVisible(false)
+      setMyClassVisible(false)
+    }else if(key === 'create'){
+      setCreateClassVisible(true)
+
+      setJoinClassVisible(false)
+      setMyClassVisible(false)
+    }else if(key.startsWith('myClass')){
+      // MY CLASS FUNC 
+      let classKey = key.slice(7)
+      
+      getClassDetail(classKey)
+      setSelectedMyClass(classKey)
+      
+      setMyClassVisible(true)
+      setJoinClassVisible(false)
+      setCreateClassVisible(false)
+
+    }
+  }
+
+  function generateManagedClassList(){
+    
+    if(classListByAdmin === []){
+      return {}
+    }
+
+    let tempClasses = []
+
+    for(let i = 0; i < classListByAdmin.length ; i ++){
+
+      let item = {key: "myClass"+classListByAdmin[i].id, label: classListByAdmin[i].name }
+
+      tempClasses.push(item)
+    }
+    return tempClasses
+    // {key: 'myClassList',label: `班级1`}
+  }
+
+  const sideItems2 = 
   [
     {
       key: '1',
@@ -35,48 +124,10 @@ const sideItems2 =
       key: '3',
       icon: React.createElement(UserOutlined),
       label:'我的班级',
-      children: [{key: 'myClassList',label: `班级1`}],
+      children: generateManagedClassList(),
     }
   ]
 
-const ManagePage = () => {
-  
-  let {user, logoutUser} = useContext(AuthContext)
-  let {getClassList,classList} = useContext(DataContext)
-
-  const [createClassVisible, setCreateClassVisible] = useState(false)
-  const [joinClassVisible, setJoinClassVisible] = useState(true)
-  const [joinPromptVisible, setJoinPromptVisible] = useState(false)
-  let [classes, setClasses] = useState("")
-  let [loading, setLoading] = useState(true)
-  const [collapsed, setCollapsed] = useState(false);
-
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-  
-  useEffect(  ()=> {
-    getClassList()
-    .then(setClasses(classList))    
-    .then(setLoading(false))
-  },[]) 
-
-  function handleClick(e){
-    setJoinPromptVisible(true)
-    localStorage.setItem('selectedClass',e.name)
-    console.log(e)
-  }
-  
-  function handleMenuClick(key){
-    if(key === 'join'){
-      setJoinClassVisible(true)
-      setCreateClassVisible(false)
-    }else if(key === 'create'){
-      setCreateClassVisible(true)
-      setJoinClassVisible(false)
-    }
-  }
-  
   return (
     
         <Layout style={{minHeight: '100vh',}}>
@@ -107,6 +158,7 @@ const ManagePage = () => {
 
             </Sider>
             <Layout style = {{minHeight: '100vh',}}>
+              {/* JOIN CLASS */}
               {joinClassVisible && 
                 <Space direction="vertical" size="middle" style={{ display: 'flex', background:colorBgContainer, minHeight: '95vh' , padding:'5%'}}>
                 
@@ -129,18 +181,26 @@ const ManagePage = () => {
                     onClick = {()=>{setJoinPromptVisible(false)}}>^</Button>
                   </div>
                 }
-                
-              
+
                 </Space>
               }
               
                 
                 
-                
+              {/* CREATE CLASS */}
                 {createClassVisible && 
                   <Space direction = 'vertical' size="middle" style = {{display: 'flex', background:colorBgContainer,minHeight:'95vh'}} > 
                     <Space direction="vertical" size="middle" style={{ display: 'flex', width:'50%', margin:'auto' }}>
                       <CreateClassForm/>
+                    </Space>
+                  </Space>
+                }
+              
+              {/* MY CLASS */}
+              {myClassVisible && 
+                  <Space direction = 'vertical' size="middle" style = {{display: 'flex', background:colorBgContainer,minHeight:'95vh'}} > 
+                    <Space direction="vertical" size="middle" style={{ display: 'flex', width:'50%', margin:'auto' }}>
+                     {classData && <MyClassInfo selectedClass = {selectedMyClass} data = {classData}/>}
                     </Space>
                   </Space>
                 }

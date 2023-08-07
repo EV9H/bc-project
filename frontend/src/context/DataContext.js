@@ -14,8 +14,8 @@ export const DataProvider = ({children}) =>{
     let [loading, setLoading] = useState(true)
     let [profile, setProfile] = useState([])
     let [classList, setClassList] = useState([])
-    
-    
+    let [classListByAdmin, setClassListByAdmin] = useState([])
+    let [classDetail, setClassDetail] = useState()
     let {backendAddress, authTokens,user} = useContext(AuthContext)
     
     const getAll = async () => {
@@ -218,7 +218,8 @@ export const DataProvider = ({children}) =>{
         })
     }
 
-    const createClass = async (values) => {
+    const createClass = async (name, description, password) => {
+        // console.log(name, description, password)
         let response = fetch(backendAddress+'/api/createClass/',{
             method: 'POST',
             headers:{
@@ -226,10 +227,10 @@ export const DataProvider = ({children}) =>{
                 'Authorization': 'Bearer ' + String(authTokens.access)
             },
             body: JSON.stringify({
-                'admin': user['user_id'],
-                'name': values.name,
-                'description': values.description,
-                'password': values.password,
+                admin: user['user_id'],
+                name,
+                description,
+                password,
             })
         })
 
@@ -295,6 +296,48 @@ export const DataProvider = ({children}) =>{
     //     })
     // }
 
+    let getClassByAdmin = async () => {
+        let response = await fetch(backendAddress+'/api/getClassByAdmin/',{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            }
+        })
+
+        
+        if(response.status === 200){
+            let e = await response.json()
+            setClassListByAdmin(e)
+
+        }else{
+            console.log("ERROR:", response)
+            alert("Something wrong with getting class list by admin")
+        }
+    }
+
+    let getClassDetail = async (id) => {
+
+        let response = await fetch(backendAddress+'/api/classGroupDetail/'+id,{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + String(authTokens.access)
+            },
+        })
+
+        
+        if(response.status === 200){
+            let e = await response.json()
+            setClassDetail(e)
+
+        }else{
+            console.log("ERROR:", response)
+            alert("Something wrong with getting class detail")
+            return false
+        }
+    }
+
     // EXPORT CONTEXT
     let contextData = {
         entries:entries,
@@ -303,6 +346,8 @@ export const DataProvider = ({children}) =>{
         progress: progress, 
         profile: profile, 
         classList: classList,
+        classListByAdmin: classListByAdmin,
+        classDetail: classDetail,
 
         getEntries: getEntries,
         get_words:get_words,
@@ -323,6 +368,8 @@ export const DataProvider = ({children}) =>{
         createClass:createClass,
         joinClass:joinClass,
         getClassList:getClassList,
+        getClassByAdmin: getClassByAdmin,
+        getClassDetail:getClassDetail,
     }
 
     return(

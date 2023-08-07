@@ -145,7 +145,6 @@ class ClassGroup(models.Model):
     password = models.TextField(null = True, blank= True)
 
 
-
     def __str__(self):
         return (self.description)
     
@@ -164,3 +163,16 @@ class Staff(models.Model):
     # @property
     # def owner(self):
     #     return self.user
+
+class AbstractStudent(models.Model):
+    user = models.ForeignKey(User, null=True, blank= True, on_delete=models.DO_NOTHING)
+    classGroup = models.ForeignKey(ClassGroup, on_delete= models.DO_NOTHING)
+
+class entryGroup(models.Model):
+    classGroup = models.ForeignKey(ClassGroup, on_delete= models.CASCADE)
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
+
+class entryItem(models.Model):
+    student = models.ForeignKey(AbstractStudent, on_delete=models.CASCADE)
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
+    
