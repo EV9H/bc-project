@@ -141,7 +141,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'beici-db',
         'USER': 'postgres',
-        'PASSWORD': '12345',
+        'PASSWORD': 'db12345',
         'HOST': 'localhost',
         'PORT': '5432',
     }

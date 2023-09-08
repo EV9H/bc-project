@@ -7,7 +7,7 @@ html,body
     padding: 0px;
     overflow-x: hidden; 
 
-    background: var(--night);
+    background: var(--white);
 }
 input:-webkit-autofill { 
     -webkit-background-clip: text;
@@ -23,9 +23,9 @@ p {
 }
 
 :root {
-    --white:  #e4f1fe;
-    --light: #8dc6ff;
-    --dark: #34495e;
+    --white:  #eee;
+    --light: #2c80e2 ;
+    --dark: #79c300;
     --black: #22313f;
     --night: #001528;
 }
@@ -57,7 +57,6 @@ p {
 /* COMPONENTS */
 
 #header{
-
     min-height: 140px;
 
     justify-content: center;
@@ -80,8 +79,12 @@ p {
     width: 100%;
 }
 
-.account-menu-option .ant-menu-item-selected {
+.ant-menu-item-selected {
     color: #fff !important;
+}
+
+.ant-menu-item-hover {
+    color: #fff;
 }
 
 #logo{

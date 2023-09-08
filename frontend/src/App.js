@@ -46,7 +46,7 @@ function App() {
             </Routes>
               
 
-            <Footer style={{ textAlign: 'center', color: 'white', marginTop: '48px', marginBottom: '48px' }}>
+            <Footer style={{ textAlign: 'center', color: 'black', marginTop: '96px', marginBottom: '48px' }}>
                           文言文实词狂 ©2023 Created by TeamXXX
                       </Footer>
             {/* </AuthProvider> */}
