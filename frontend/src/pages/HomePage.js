@@ -73,10 +73,10 @@ const HomePage = () => {
                   style = {{textAlign:'left', padding: '10px', color:''}}>
                       {/* <Title level = {2} style = {{color: '#000', height: '20px', marginBottom:'50px'}}>我的班级</Title> */}
                       <Row gutter={[10,10]}>
-                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年3班</Card></Col>
-                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年1班</Card></Col>
-                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年4班</Card></Col>
-                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年2班</Card></Col>
+                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年3班</Card></Col>
+                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年1班</Card></Col>
+                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年4班</Card></Col>
+                        <Col span = {12}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>八年2班</Card></Col>
                       </Row>
                       
                       
@@ -91,10 +91,10 @@ const HomePage = () => {
                     {/* <Title level = {2} style = {{color: '#000', height: '20px', marginBottom:'50px'}}>
                       近期词书</Title> */}
                     <Row gutter={[10,10]} style = {{height:'100%'}}>
-                      <Col span = {12} style = {{height:'100%', alignItems:'center'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center', fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>人教版</Card></Col>
-                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)" }}>沪教版</Card></Col>
-                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>XX版</Card></Col>
-                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'20px', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>我的词书</Card></Col>
+                      <Col span = {12} style = {{height:'100%', alignItems:'center'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center', fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>人教版</Card></Col>
+                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)" }}>沪教版</Card></Col>
+                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>XX版</Card></Col>
+                      <Col span = {12} style = {{height:'100%'}}><Card style = {{background:'#03e4a1',color:'white',textAlign:'center',fontSize:'1rem', boxShadow: "5px 3px 10px 2px rgba(100, 255, 255, 0.3)"}}>我的词书</Card></Col>
                     </Row>
                 </Card>
               </Col>
@@ -142,3 +142,5 @@ const HomePage = () => {
 }
 
 export default HomePage
+
+

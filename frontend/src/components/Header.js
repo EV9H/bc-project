@@ -29,6 +29,10 @@ const items = [
   {
     label:'管理',
     key: 'manage',
+  },
+  {
+    label:'我的班级',
+    key:'myclass'
   }
 ];
 

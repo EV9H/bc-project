@@ -57,7 +57,7 @@ p {
 /* COMPONENTS */
 
 #header{
-    min-height: 140px;
+    min-height: 300px;
 
     justify-content: center;
     align-items: center;
