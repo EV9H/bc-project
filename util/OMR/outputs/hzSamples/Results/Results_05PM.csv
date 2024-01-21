@@ -1,0 +1,5 @@
+"file_id","input_path","output_path","score","q0_4","q0_2","q0_3","q0_1","q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15","q16","q17","q18","q19","q20"
+"scan_2.png","inputs\hzSamples\scan_2.png","outputs\hzSamples\CheckedOMRs\scan_2.png","0","5","3","6","1","A","B","C","ABC","ABC","B","C","B","A","B","ABC","ABC","A","ABC","B","C","A","C","B","C"
+"scan_3.jpg","inputs\hzSamples\scan_3.jpg","outputs\hzSamples\CheckedOMRs\scan_3.jpg","0","3","5","1","0","B","A","C","C","C","B","B","B","A","A","B","C","C","B","C","A","C","B","C","A"
+"test_page_1.png","inputs\hzSamples\test_page_1.png","outputs\hzSamples\CheckedOMRs\test_page_1.png","0","3","1","2","4","C","B","A","ABC","ABC","ABC","ABC","ABC","ABC","A","ABC","B","ABC","C","ABC","ABC","ABC","ABC","B",""
+"test_scan_4.jpg","inputs\hzSamples\test_scan_4.jpg","outputs\hzSamples\CheckedOMRs\test_scan_4.jpg","0","0123456","01234567","01234567","012345678","D","AD","ABD","A","","","","","","C","","","AB","","B","","","","D",""
